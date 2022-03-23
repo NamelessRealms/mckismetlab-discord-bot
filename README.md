@@ -1,0 +1,2 @@
+# mckismetlab-discord-bot-ts
+ 
