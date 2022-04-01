@@ -86,7 +86,14 @@ export default class Main {
     }
 
     private _botActivity() {
-        this._client.user?.setActivity("模組伺服器", { type: "PLAYING" });
+        this._client.user?.setPresence({
+            activities: [
+                {
+                    name: `模組伺服器 v${environment.version}`,
+                    type: "PLAYING"
+                }
+            ]
+        });
     }
 }
 

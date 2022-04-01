@@ -1,5 +1,5 @@
 import { REST } from "@discordjs/rest";
-import { Client } from "discord.js";
+import { Client, CommandInteraction } from "discord.js";
 import { Routes } from "discord-api-types/v9";
 import LoggerUtil from "../utils/LoggerUtil";
 import SlashCommandBase from "./SlashCommandBase";
@@ -59,6 +59,7 @@ export default class CommandBuilder {
             // listener interactionCreate event
             this._client.on("interactionCreate", (interaction) => {
                 if (!interaction.isCommand()) return;
+                this._logger.info(`${interaction.user.tag} Run Command /${interaction.commandName}`);
                 commands.forEach((command) => {
                     if (command.name === interaction.commandName) {
                         command.execute(interaction);
@@ -73,5 +74,4 @@ export default class CommandBuilder {
             this._logger.error(error);
         }
     }
-
 }

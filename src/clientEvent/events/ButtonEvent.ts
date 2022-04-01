@@ -52,6 +52,7 @@ export default class ButtonEvent implements IEvent<"interactionCreate"> {
                 return;
             }
 
+            // TODO: 
             const userWhitelist = await ApiService.getServerWhitelist(userLink.minecraft_uuid);
             const playerNames = await MojangApi.getPlayerName(userLink.minecraft_uuid);
             const playerName = playerNames !== null ? playerNames[playerNames.length - 1] !== undefined ? playerNames.pop()?.name as string : null : null;
