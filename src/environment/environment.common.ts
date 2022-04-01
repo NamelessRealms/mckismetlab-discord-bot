@@ -1,5 +1,5 @@
-import { API_VERSION } from "../version";
+import { BOT_VERSION } from "../Version";
 
 export const environment = {
-    api_version: API_VERSION
+    version: BOT_VERSION
 }

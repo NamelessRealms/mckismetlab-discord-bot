@@ -41,5 +41,17 @@ export const environment = {
     // 伺服器指令執行頻道ID
     minecraftServerCommandRun: {
         channelId: "813692539080933378"
+    },
+
+    admin: {
+        roleId: "642615488005799977"
+    },
+
+    whitelistApply: {
+        channelId: "813692935933263873"
+    },
+
+    serverStatus: {
+        channelId: "813692869981765643"
     }
 }

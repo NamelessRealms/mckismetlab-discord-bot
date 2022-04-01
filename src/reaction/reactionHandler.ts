@@ -1,5 +1,5 @@
 import { Client } from "discord.js";
-import { manualVerifyReaction } from "./manualVerifyReaction";
+import { manualVerifyReaction } from "./ManualVerifyReaction";
 
 export function reactionHandler(client: Client, isDev: boolean): void {
 

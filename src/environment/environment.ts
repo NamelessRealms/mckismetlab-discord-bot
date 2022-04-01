@@ -1,6 +1,6 @@
-import { environment as commonEnv } from "./environment.common";
-import { environment as prodEnv } from "./environment.prod";
-import { environment as devEnv } from "./environment.dev";
+import { environment as commonEnv } from "./Environment.common";
+import { environment as prodEnv } from "./Environment.prod";
+import { environment as devEnv } from "./Environment.dev";
 
 const ENV = process.env.NODE_ENV || "development";
 

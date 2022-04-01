@@ -1,5 +1,5 @@
-export class dates {
-    public time(): string {
+export default class dates {
+    public static time(): string {
 
         const date: Date = new Date();
         const hours = date.getHours().toString();
@@ -9,7 +9,7 @@ export class dates {
         return `${hours.padStart(2, "0")}:${minutes.padStart(2, "0")}:${seconds.padStart(2, "0")}`;
     }
 
-    public fullYearTime(): string {
+    public static fullYearTime(): string {
 
         const date: Date = new Date();
 
@@ -23,7 +23,7 @@ export class dates {
         return `${year}-${month.padStart(2, "0")}-${day.padStart(2, "0")} ${hours.padStart(2, "0")}:${minutes.padStart(2, "0")}:${seconds.padStart(2, "0")}`;
     }
 
-    public dateTime(): string {
+    public static dateTime(): string {
 
         const date: Date = new Date();
 

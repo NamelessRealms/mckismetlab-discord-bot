@@ -1,0 +1,26 @@
+[12:03:35][ERROR][Main]: Error: Login api server failure.
+[12:03:50][ERROR][Main]: Error: Login api server failure.
+[12:04:03][ERROR][Main]: Error: Login api server failure.
+[12:04:54][ERROR][Main]: Error: Login api server failure.
+[22:01:35][ERROR][CommandBuilder]: [
+  {
+    "validation": "regex",
+    "code": "invalid_string",
+    "message": "Invalid",
+    "path": []
+  }
+]
+[01:34:44][ERROR][WhitelistApply]: [object Object]
+[01:38:32][ERROR][WhitelistApply]: [object Object]
+[21:30:59][ERROR][CommandBuilder]: [
+  {
+    "code": "invalid_type",
+    "expected": "string",
+    "received": "undefined",
+    "path": [],
+    "message": "Required"
+  }
+]
+[21:31:22][ERROR][CommandBuilder]: S[50035]: Invalid Form Body
+options[1][APPLICATION_COMMAND_OPTIONS_TYPE_INVALID]: Sub-command and sub-command group option types are mutually exclusive to all other types
+[11:32:55][ERROR][WhitelistClear]: ReferenceError: Blob is not defined

@@ -1,45 +1,34 @@
-import axios from "../api/axiosApi";
-import { IProfiles } from "../interface/IProfiles";
-import BotMain from "../botMain";
+import IProfiles from "../interface/IProfiles";
+import got from "got";
 
 const mojangUrl = "https://api.mojang.com/users/profiles";
 const mojangPlayerNameUrl = "https://api.mojang.com/user/profiles";
 
 export default class MojangApi {
 
-    public static validateSpieler(playerName: string): Promise<IProfiles | undefined> {
-        return new Promise(async (resolve, reject) => {
-            try {
+    public static async validateSpieler(playerName: string): Promise<IProfiles | null> {
 
-                const respone = await axios.get(mojangUrl + `/minecraft/${playerName}`);
-
-                if (respone.status === 200) {
-                    return resolve(respone.data)
-                } else {
-                    return resolve(undefined);
-                }
-
-            } catch (error) {
-                BotMain.LOG.error(error);
-            }
+        const response = await got.get<IProfiles>(mojangUrl + `/minecraft/${playerName}`, {
+            responseType: "json"
         });
+
+        if (response.statusCode === 200) {
+            return response.body;
+        }
+
+        return null;
     }
 
-    public static getPlayerName(uuid: string): Promise<Array<{ name: string; changedToAt?: number; }> | undefined> {
-        return new Promise(async (resolve, reject) => {
-            try {
+    public static async getPlayerName(uuid: string): Promise<Array<{ name: string; changedToAt?: number; }> | null> {
 
-                const respone = await axios.get(mojangPlayerNameUrl + `/${uuid}/names`);
-
-                if (respone.status === 200) {
-                    return resolve(respone.data);
-                } else {
-                    return resolve(undefined);
-                }
-
-            } catch (error) {
-                BotMain.LOG.error(error);
-            }
+        const response = await got.get<Array<{ name: string; changedToAt?: number; }>>(mojangPlayerNameUrl + `/${uuid}/names`, {
+            responseType: "json"
         });
+
+        if (response.statusCode === 200) {
+            return response.body;
+        }
+
+        return null;
     }
 }

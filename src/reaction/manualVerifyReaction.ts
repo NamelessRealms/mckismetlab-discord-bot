@@ -1,9 +1,9 @@
 import { Client, TextChannel, Message } from "discord.js";
-import ApiServiceAxios from "../api/apiServiceAxios";
+import ApiService from "../api/ApiService";
 
 export async function manualVerifyReaction(client: Client): Promise<void> {
 
-    const manualVerifyWhitelistsResponse = await ApiServiceAxios.getWhitelistAllManualVerify();
+    const manualVerifyWhitelistsResponse = await ApiService.getWhitelistAllManualVerify();
 
     if (manualVerifyWhitelistsResponse.status === 200) {
 
