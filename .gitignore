@@ -1,9 +1,9 @@
 /node_modules
 /build
+/botconfig
+/logs
 
 .DS_Store
 .vscode
 .env
 yarn-error.log
-/botconfig
-/logs
