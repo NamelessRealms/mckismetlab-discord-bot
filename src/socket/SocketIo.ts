@@ -27,6 +27,11 @@ export default class SocketIo {
 
         io.on("connection", (socketConnection: Socket) => {
 
+            if(socketConnection.conn.remoteAddress !== "::ffff:127.0.0.1") {
+                socketConnection.disconnect();
+                return;
+            }
+
             const doEvent = async (msg: any): Promise<void> => {
 
                 const serverId = msg.server_id;
