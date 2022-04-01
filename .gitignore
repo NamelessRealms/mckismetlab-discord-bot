@@ -5,3 +5,5 @@
 .vscode
 .env
 yarn-error.log
+/botconfig
+/logs
