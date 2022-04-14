@@ -5,8 +5,8 @@ import IMessage from "../interface/IMessage";
 import ISockerEvent from "../ISockerEvent";
 import SocketIo from "../SocketIo";
 
-export default class MessageEvent implements ISockerEvent<"messageCreate"> {
-    public event: keyof IEventType = "messageCreate";
+export default class MessageEvent implements ISockerEvent<"MESSAGE_CREATE"> {
+    public event: keyof IEventType = "MESSAGE_CREATE";
     public execute(client: Client, socket: Socket, serverId: string, message: IMessage): void {
 
         const webhook = SocketIo.getWebhook(serverId);

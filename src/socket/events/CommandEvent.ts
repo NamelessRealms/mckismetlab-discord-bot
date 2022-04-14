@@ -6,8 +6,8 @@ import ICommand from "../interface/ICommand";
 import IEventType from "../interface/IEventType";
 import ISockerEvent from "../ISockerEvent";
 
-export default class CommandEvent implements ISockerEvent<"commandCreate"> {
-    public event: keyof IEventType = "commandCreate";
+export default class CommandEvent implements ISockerEvent<"COMMAND_CREATE"> {
+    public event: keyof IEventType = "COMMAND_CREATE";
     public execute(client: Client<boolean>, socket: Socket, serverId: string, command: ICommand): void {
 
         const channel = client.channels.cache.get(environment.serverCommandCarriedOut.channelId) as TextChannel;

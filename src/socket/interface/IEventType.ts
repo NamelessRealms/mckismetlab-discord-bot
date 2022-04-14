@@ -3,11 +3,11 @@ import IMessage from "./IMessage";
 import IMessagePrivate from "./IMessagePrivate";
 
 export default interface IEventType {
-    messageCreate: [message: IMessage];
+    MESSAGE_CREATE: [message: IMessage];
 
-    messagePrivateCreate: [message: IMessagePrivate];
+    MESSAGE_PRIVATE_CREATE: [message: IMessagePrivate];
 
-    commandCreate: [command: ICommand];
+    COMMAND_CREATE: [command: ICommand];
 
-    userBoostGet: [userUuid: string];
+    GET_USER_BOOST: [userUuid: string];
 }

@@ -6,8 +6,8 @@ import IEventType from "../interface/IEventType";
 import IMessagePrivate from "../interface/IMessagePrivate";
 import ISockerEvent from "../ISockerEvent";
 
-export default class MessagePrivateEvent implements ISockerEvent<"messagePrivateCreate"> {
-    public event: keyof IEventType = "messagePrivateCreate";
+export default class MessagePrivateEvent implements ISockerEvent<"MESSAGE_PRIVATE_CREATE"> {
+    public event: keyof IEventType = "MESSAGE_PRIVATE_CREATE";
     public execute(client: Client, socket: Socket, serverId: string, message: IMessagePrivate): void {
 
         const channel = client.channels.cache.get(environment.serverPrivateMsg.channelId) as TextChannel;
