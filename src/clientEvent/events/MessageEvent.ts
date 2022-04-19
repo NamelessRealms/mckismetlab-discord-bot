@@ -28,7 +28,7 @@ export default class MessageEvent implements IEvent<"messageCreate"> {
                     const userData = message.guild?.members.cache.get(dcUserID) as GuildMember;
                     const userNickName = userData.nickname !== null ? userData.nickname : userData.user.username;
 
-                    socket.emit("messageCreate", {
+                    socket.emit("MESSAGE_CREATE", {
                         username: userNickName,
                         content: this._handleTag(content, message)
                     });

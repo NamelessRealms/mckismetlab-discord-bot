@@ -38,15 +38,15 @@ export default class PlayerCommand extends SlashCommandBase {
             const playerNames = await MojangApi.getPlayerName(userLink.minecraft_uuid);
             const playerName = playerNames !== null ? playerNames[playerNames.length - 1] !== undefined ? playerNames.pop()?.name as string : null : null;
 
-            const usersTime = await SocketIo.emitSocket<Array<IUserTime>>("getPlayerTime", "mckismetlab-main-server", {
+            const usersTime = await SocketIo.emitSocket<Array<IUserTime>>("GET_PLAYER_TIME", "mckismetlab-main-server", {
                 players: [
                     {
-                        minecraft_uuid: userLink.minecraft_uuid
+                        minecraftUuid: userLink.minecraft_uuid
                     }
                 ]
             });
 
-            const userTime = usersTime.find(value => value.minecraft_uuid === userLink.minecraft_uuid);
+            const userTime = usersTime.find(value => value.minecraftUuid === userLink.minecraft_uuid);
 
             if (userTime === undefined) {
                 interaction.editReply({ embeds: [Embeds.botErrorEmbed()]});
@@ -76,7 +76,7 @@ export default class PlayerCommand extends SlashCommandBase {
                     },
                     {
                         name: "⏰ 遊玩時間:",
-                        value: `▫ ${userTime.hours.split(":")[0]} 時 ${userTime.hours.split(":")[1]} 分 ${userTime.hours.split(":")[2]} 秒`,
+                        value: `▫ ${userTime.playTime.split(":")[0]} 時 ${userTime.playTime.split(":")[1]} 分 ${userTime.playTime.split(":")[2]} 秒`,
                         inline: true
                     }
                 );

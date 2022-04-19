@@ -104,7 +104,7 @@ export default class ServerCommandCommand extends SlashCommandBase {
                 throw new Error("commandText not null.");
             }
 
-            const serverReplyText = await SocketIo.emitSocket<string>("commandRun", "mckismetlab-main-server", commandText.replace("/", ""));
+            const serverReplyText = await SocketIo.emitSocket<string>("COMMAND_RUN", "mckismetlab-main-server", commandText.replace("/", ""));
 
             if (serverReplyText.length !== 0 || !serverReplyText === null) {
                 if (serverReplyText.length < 3999) {
