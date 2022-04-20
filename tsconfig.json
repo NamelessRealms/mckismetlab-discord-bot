@@ -3,14 +3,16 @@
         "target": "es2015",
         "module": "commonJS",
         "outDir": "./dist",
-        // "declaration": true,
+        "forceConsistentCasingInFileNames": true,
         "strict": true,
-        "sourceMap": false,
-        "skipLibCheck": true,
-        "strictNullChecks": true,
-        "noImplicitThis": true,
+        "noImplicitReturns": true,
+        "noFallthroughCasesInSwitch": true,
+        "sourceMap": true,
+        "declaration": false,
+        "downlevelIteration": true,
+        "experimentalDecorators": true,
         "moduleResolution": "node",
-        "forceConsistentCasingInFileNames": true
+        "importHelpers": true
     },
     "include": [
         "src"

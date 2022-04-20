@@ -80,6 +80,7 @@ export default class ServerStatus {
             } else if (Number(serverInfo.TPS) < 5) {
                 return `😫 非常不順暢 TPS: ${Math.round(serverInfo.TPS)}`;
             }
+            return "發生錯誤";
         }
 
         const embed = new MessageEmbed()
