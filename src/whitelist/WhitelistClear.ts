@@ -140,10 +140,10 @@ export default class WhitelistClear {
                                 });
 
                         } else {
-                            failedText += "name: ${clearUser.user.minecraft_name}, guild user: No";
+                            failedText += `name: ${clearUser.user.minecraftName}, guild user: No`;
                         }
                     } else {
-                        failedText += "name: ${clearUser.user.minecraft_name}, guild user: No";
+                        failedText += `name: ${clearUser.user.minecraftName}, guild user: No`;
                     }
 
                     try {
@@ -194,7 +194,7 @@ export default class WhitelistClear {
     }
 
     public static async _getPlayersTime(checkWhitelist: Array<ICheckWhitelist>, serverId: string, byTimeHours?: number, clearSponsor: boolean = false) {
-        const playersTime = await SocketIo.emitSocket<Array<IUserTime>>("GET_PLAYER_TIME", serverId, { players: checkWhitelist });
+        const playersTime = await SocketIo.emitSocket<Array<IUserTime>>("GET_PLAYER_TIME", serverId, { players: checkWhitelist });        
         for (let whitelist of checkWhitelist) {
             const playerTime = playersTime.find(value => value.minecraftUuid === whitelist.minecraftUuid);
             whitelist.time = playerTime !== undefined ? playerTime.playTime : null;
