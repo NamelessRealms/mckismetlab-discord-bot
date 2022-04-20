@@ -1,6 +1,5 @@
 import { ClientEvents, Client, Message, GuildMember } from "discord.js";
 import { environment } from "../../environment/Environment";
-import Main from "../../Main";
 import SocketIo from "../../socket/SocketIo";
 import IEvent from "../IEvent";
 
