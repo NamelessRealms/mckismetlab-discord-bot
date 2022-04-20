@@ -5,15 +5,16 @@ COPY package.json ./
 COPY yarn.lock ./
 
 # Install dependencies
-RUN yarn --frozen-lockfile
+RUN yarn install --frozen-lockfile
 
 # Copy source
 COPY src ./src
 COPY tsconfig.json ./tsconfig.json
 
 # Build tsc
-RUN npm install typescript -g
-RUN tsc
+RUN yarn tsc-build
+# RUN npm install typescript -g
+# RUN tsc
 
 # remove development dependencies
 RUN npm prune --production

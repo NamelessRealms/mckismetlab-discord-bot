@@ -33,6 +33,7 @@
     "build": "yarn outputVersion && node build.js && tsc",
     "dev": "cross-env NODE_ENV=development ts-node-dev ./src/Main.ts",
     "debug": "cross-env NODE_ENV=development ts-node-dev --inspect-brk=5858 -- .",
-    "outputVersion": "node -p \"'export const BOT_VERSION = ' + JSON.stringify(require('./package.json').version) + ';'\" > src/version.ts"
+    "outputVersion": "node -p \"'export const BOT_VERSION = ' + JSON.stringify(require('./package.json').version) + ';'\" > src/version.ts",
+    "tsc-build": "./node_modules/typescript/bin/tsc"
   }
 }
