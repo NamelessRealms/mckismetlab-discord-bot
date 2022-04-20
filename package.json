@@ -34,6 +34,5 @@
     "dev": "cross-env NODE_ENV=development ts-node-dev ./src/Main.ts",
     "debug": "cross-env NODE_ENV=development ts-node-dev --inspect-brk=5858 -- .",
     "outputVersion": "node -p \"'export const BOT_VERSION = ' + JSON.stringify(require('./package.json').version) + ';'\" > src/version.ts"
-  },
-  "packageManager": "yarn@3.2.0"
+  }
 }

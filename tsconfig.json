@@ -2,7 +2,7 @@
     "compilerOptions": {
         "target": "es2015",
         "module": "commonJS",
-        "outDir": "build",
+        "outDir": "./dist",
         // "declaration": true,
         "strict": true,
         "sourceMap": false,
