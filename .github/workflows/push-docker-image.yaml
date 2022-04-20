@@ -1,0 +1,41 @@
+name: Push Docker Image
+
+on:
+  push:
+    branches: [ master ]
+    
+jobs:
+  push-image-to-docker-hub:
+    runs-on: ubuntu-latest
+
+    env:
+      DOCKER_PULL_COMMAND: docker buildx build --platform linux/amd64 --output type=image,registry.insecure=true,push=true -t ${{ secrets.DOCKER_STORAGE_IP }}/mckismetlab-discord-bot .
+
+    steps:
+    
+    - name: Checkout
+      uses: actions/checkout@v2
+      
+    - name: Set up Docker Buildx
+      id: buildx
+      uses: docker/setup-buildx-action@v1
+      
+    - name: Get current date
+      id: date
+      run: echo "::set-output name=date::$(date +'%Y-%m-%d--%M-%S')"
+      
+    - name: Build the Docker image And Push
+      id: firs-docker-pull
+      run: ${{ env.DOCKER_PULL_COMMAND }}
+      continue-on-error: true
+
+    - name: Retry again on failure Build the Docker image And Push
+      id: second-docker-pull
+      if: steps.firs-docker-pull.outcome != 'success'
+      run: ${{ env.DOCKER_PULL_COMMAND }}
+
+    - name: Invoke deployment hook
+      uses: distributhor/workflow-webhook@v2
+      env:
+        webhook_url: ${{ secrets.WEBHOOK_URL }}/mkl-discord-build-webhook
+        webhook_secret: ${{ secrets.WEBHOOK_SECRET }}
