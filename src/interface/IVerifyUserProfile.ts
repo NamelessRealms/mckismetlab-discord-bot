@@ -1,4 +1,4 @@
-import { VerifyNoticeStatus } from "./enum/verifyNoticeStatus";
+import { VerifyNoticeStatus } from "./enum/VerifyNoticeStatusEnum";
 
 export default interface IVerifyUserProfile {
     status: VerifyNoticeStatus;
