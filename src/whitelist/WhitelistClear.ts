@@ -11,8 +11,8 @@ import Utils from "../utils/Utils";
 import WhitelistApply from "./WhitelistApply";
 
 interface ICheckWhitelist {
-    minecraft_uuid: string;
-    minecraft_name: string | null;
+    minecraftUuid: string;
+    minecraftName: string | null;
     discordUserId: string | null;
     time: string | null;
     isClear: boolean;
@@ -53,15 +53,15 @@ export default class WhitelistClear {
                 if (whitelist.isClear) {
                     clearUsers.push({
                         user: whitelist,
-                        text: `name: ${whitelist.minecraft_name}, time: ${whitelist.time}, clear: ${whitelist.isClear ? "Yse" : "No"}, sponsor: ${whitelist.isSponsor ? "Yse" : "No"}`
+                        text: `name: ${whitelist.minecraftName}, time: ${whitelist.time}, clear: ${whitelist.isClear ? "Yse" : "No"}, sponsor: ${whitelist.isSponsor ? "Yse" : "No"}`
                     });
                 } else {
                     byUsers.push({
                         user: whitelist,
-                        text: `name: ${whitelist.minecraft_name}, time: ${whitelist.time}, clear: ${whitelist.isClear ? "Yse" : "No"}, sponsor: ${whitelist.isSponsor ? "Yse" : "No"}`
+                        text: `name: ${whitelist.minecraftName}, time: ${whitelist.time}, clear: ${whitelist.isClear ? "Yse" : "No"}, sponsor: ${whitelist.isSponsor ? "Yse" : "No"}`
                     });
                 }
-                if (whitelist.isSponsor) sponsorText.push(`name: ${whitelist.minecraft_name}, time: ${whitelist.time}, clear: ${whitelist.isClear ? "Yse" : "No"}, sponsor: ${whitelist.isSponsor ? "Yes" : "No"}`);
+                if (whitelist.isSponsor) sponsorText.push(`name: ${whitelist.minecraftName}, time: ${whitelist.time}, clear: ${whitelist.isClear ? "Yse" : "No"}, sponsor: ${whitelist.isSponsor ? "Yes" : "No"}`);
             }
 
             if (clearUsers.length <= 0) {
@@ -136,7 +136,7 @@ export default class WhitelistClear {
 
                             member.roles.remove(roleWhitelist)
                                 .catch(() => {
-                                    failedText = `name: ${clearUser.user.minecraft_name}, guild user: Yse, user role remove: No`;
+                                    failedText = `name: ${clearUser.user.minecraftName}, guild user: Yse, user role remove: No`;
                                 });
 
                         } else {
@@ -147,7 +147,7 @@ export default class WhitelistClear {
                     }
 
                     try {
-                        await ApiService.deleteServerWhitelist(clearUser.user.minecraft_uuid);
+                        await ApiService.deleteServerWhitelist(clearUser.user.minecraftUuid);
                     } catch (error: any) {
                         failedText += ", api server delete server whitelist: No";
                     }
@@ -182,8 +182,8 @@ export default class WhitelistClear {
             const playerName = await Utils.getPlayerName(whitelist.minecraft_uuid);
 
             checkWhitelist.push({
-                minecraft_uuid: whitelist.minecraft_uuid,
-                minecraft_name: playerName,
+                minecraftUuid: whitelist.minecraft_uuid,
+                minecraftName: playerName,
                 discordUserId: userLink !== null ? userLink.discord_id : null,
                 time: null,
                 isClear: false,
@@ -194,13 +194,13 @@ export default class WhitelistClear {
     }
 
     public static async _getPlayersTime(checkWhitelist: Array<ICheckWhitelist>, serverId: string, byTimeHours?: number, clearSponsor: boolean = false) {
-        const playersTime = await SocketIo.emitSocket<Array<IUserTime>>("getPlayerTime", serverId, { players: checkWhitelist });
+        const playersTime = await SocketIo.emitSocket<Array<IUserTime>>("GET_PLAYER_TIME", serverId, { players: checkWhitelist });
         for (let whitelist of checkWhitelist) {
-            const playerTime = playersTime.find(value => value.minecraft_uuid === whitelist.minecraft_uuid);
-            whitelist.time = playerTime !== undefined ? playerTime.hours : null;
+            const playerTime = playersTime.find(value => value.minecraftUuid === whitelist.minecraftUuid);
+            whitelist.time = playerTime !== undefined ? playerTime.playTime : null;
             if (byTimeHours !== undefined) {
                 if (playerTime !== undefined) {
-                    const hours = playerTime.hours.split(":")[0];
+                    const hours = playerTime.playTime.split(":")[0];
                     if (whitelist.isSponsor) {
                         if (clearSponsor) whitelist.isClear = Number(hours) < byTimeHours;
                     } else {

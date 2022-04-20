@@ -50,7 +50,7 @@ export default class Main {
                 this._botActivity();
 
                 // server status
-                new ServerStatus(this._client, this._store).init();
+                // new ServerStatus(this._client, this._store).init();
 
                 // socket listener
                 new SocketIo(this._client).listeners();
