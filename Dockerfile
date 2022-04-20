@@ -1,9 +1,5 @@
 FROM node:16 AS BUILD
 
-WORKDIR /app
-
-ADD . /app
-
 # Add package file
 COPY package.json ./
 COPY yarn.lock ./
@@ -16,9 +12,8 @@ COPY src ./src
 COPY tsconfig.json ./tsconfig.json
 
 # Build tsc
-RUN yarn tsc-build
-# RUN npm install typescript -g
-# RUN tsc
+RUN npm install typescript -g
+RUN tsc
 
 # remove development dependencies
 RUN npm prune --production
@@ -27,8 +22,8 @@ RUN npm prune --production
 FROM node:16-alpine
 
 # copy from build image
-COPY --from=BUILD /app/dist ./dist
-COPY --from=BUILD /app/node_modules ./node_modules
+COPY --from=BUILD /dist ./dist
+COPY --from=BUILD /node_modules ./node_modules
 
 # Add env
 ENV NODE_ENV=production
