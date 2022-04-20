@@ -66,7 +66,7 @@ export default class Main {
 
                 // register commands
                 new CommandBuilder(this._client, environment.guilds_id).register([
-                    new TestCommand(),
+                    // new TestCommand(),
                     new IpCommand(),
                     new ServerCommandCommand(),
                     new EmbedCommand(),
