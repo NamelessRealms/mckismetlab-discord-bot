@@ -101,6 +101,8 @@ export default class SocketIo {
                 return (channel as TextChannel).createWebhook("mcKismetLab-Bot");
             }
         }
+
+        return undefined;
     }
 
     public static getSocket(serverId: string): Socket | null {
