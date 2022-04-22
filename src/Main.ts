@@ -27,7 +27,7 @@ export default class Main {
 
     public static readonly IS_DEV = process.env.NODE_ENV === "development";
     private readonly _store = new Store();
-    private readonly _client = new Client({ intents: [ Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES ] });
+    private readonly _client = new Client({ intents: [ Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.GUILD_MEMBERS ] });
     private readonly _logger = new LoggerUtil("Main");
 
     constructor() {
