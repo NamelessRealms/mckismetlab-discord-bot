@@ -89,7 +89,7 @@ export default class Main {
         this._client.user?.setPresence({
             activities: [
                 {
-                    name: `模組伺服器 v${environment.version}`,
+                    name: `Minecraft v${environment.version}`,
                     type: "PLAYING"
                 }
             ]
