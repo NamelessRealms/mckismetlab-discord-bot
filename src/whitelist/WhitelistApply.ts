@@ -85,7 +85,7 @@ export default class WhitelistApply {
                     .setStyle("PRIMARY"),
                 new MessageButton()
                     .setCustomId("SEARCH_WHITELIST")
-                    .setLabel("查詢白名單")
+                    .setLabel("檢查白名單")
                     .setStyle("SECONDARY")
             );
 
