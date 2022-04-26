@@ -13,7 +13,7 @@ export default class MessageEvent implements IEvent<"messageCreate"> {
     private _sendChatMessage(message: Message) {
 
         const channelId = message.channel.id;
-        const content = message.content;
+        let content = message.content;
 
         for (let link of environment.chatChannelLink) {
 
@@ -23,13 +23,15 @@ export default class MessageEvent implements IEvent<"messageCreate"> {
 
                 if (socket !== null) {
 
+                    content = this._handleTag(content, message);
+
                     const dcUserID = message.author.id;
                     const userData = message.guild?.members.cache.get(dcUserID) as GuildMember;
                     const userNickName = userData.nickname !== null ? userData.nickname : userData.user.username;
 
                     socket.emit("MESSAGE_CREATE", {
                         username: userNickName,
-                        content: this._handleTag(content, message)
+                        content: content
                     });
                 }
             }
@@ -38,30 +40,33 @@ export default class MessageEvent implements IEvent<"messageCreate"> {
 
     private _handleTag(content: string, message: Message): string {
 
-        const tagUserArray = content.replace(/<@!?(\d+)>/g, (match) => {
+        // user
+        content = content.replace(/<@!?(\d+)>/g, (match) => {
             const id: any = match.match(/<@!?(\d+)>/);
             const user = message.client.users.cache.get(id[1]);
             return user?.username as string;
         });
     
-        content = tagUserArray;
-    
-        const tagRoleArray = content.replace(/<@&?(\d+)>/g, (match) => {
+        // role
+        content = content.replace(/<@&?(\d+)>/g, (match) => {
             const id: any = match.match(/<@&?(\d+)>/);
             const role = message.guild?.roles.cache.get(id[1]);
             return role?.name as string;
         });
     
-        content = tagRoleArray;
-    
-        const tagChannelArray = content.replace(/<#?(\d+)>/g, (match) => {
+        // channel
+        content = content.replace(/<#?(\d+)>/g, (match) => {
             const id: any = match.match(/<#?(\d+)>/);
             const channel = message.guild?.channels.cache.get(id[1]);
             return channel?.name as string;
         });
-    
-        content = tagChannelArray;
-    
+
+        // emoji
+        content = content.replace(/<[a-zA-Z]*:[A-Za-z0-9_~]+:\d+>/g, (match) => {
+            const emojiName = match.split(":")[1];
+            return `:${emojiName}:`;
+        });
+
         return content;
     }
 }

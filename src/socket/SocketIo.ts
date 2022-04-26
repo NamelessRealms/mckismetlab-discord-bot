@@ -11,6 +11,7 @@ import { environment } from "../environment/Environment";
 
 export default class SocketIo {
 
+    private port: number = 8080;
     private _logger = new LoggerUtil("SocketIo");
     private _client: Client;
     private static _sockets: Map<string, Socket> = new Map<string, Socket>();
@@ -80,8 +81,8 @@ export default class SocketIo {
             socketConnection.on("init", doEvent);
         });
 
-        httpServer.listen(8080);
-        this._logger.info("Socket server listening on port 8080.");
+        httpServer.listen(this.port);
+        this._logger.info(`Socket server listening on port ${this.port}.`);
     }
 
     private async _doWebhook(serverId: string): Promise<Webhook | undefined> {

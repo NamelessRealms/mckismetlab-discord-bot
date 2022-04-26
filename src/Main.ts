@@ -20,6 +20,7 @@ import { environment } from "./environment/Environment";
 import { Client, Intents } from "discord.js";
 import SelectMenuEvent from "./clientEvent/events/SelectMenuEvent";
 import PlayerCommand from "./command/commands/PlayerCommand";
+import ClearCommand from "./command/commands/ClearCommand";
 
 const discordModals = require("discord-modals");
 
@@ -27,7 +28,7 @@ export default class Main {
 
     public static readonly IS_DEV = process.env.NODE_ENV === "development";
     private readonly _store = new Store();
-    private readonly _client = new Client({ intents: [ Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES ] });
+    private readonly _client = new Client({ intents: [ Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.GUILD_MEMBERS ] });
     private readonly _logger = new LoggerUtil("Main");
 
     constructor() {
@@ -70,7 +71,8 @@ export default class Main {
                     new IpCommand(),
                     new ServerCommandCommand(),
                     new EmbedCommand(),
-                    new PlayerCommand()
+                    new PlayerCommand(),
+                    new ClearCommand()
                 ]);
 
                 new WhitelistApply(this._client, this._store).init();
@@ -89,7 +91,7 @@ export default class Main {
         this._client.user?.setPresence({
             activities: [
                 {
-                    name: `模組伺服器 v${environment.version}`,
+                    name: `Minecraft v${environment.version}`,
                     type: "PLAYING"
                 }
             ]
