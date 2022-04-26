@@ -11,6 +11,9 @@ export default class ModalSubmitEvent {
             case "WHITELIST_APPLY_MODAL_EDIT_MINECRAFT_NAME":
                 SubscriptionEvent.emit("WHITELIST_APPLY_MODAL_EDIT_MINECRAFT_NAME", client, modal);
                 return;
+            case "ADD_ERROR_USER_MODAL_EDIT":
+                SubscriptionEvent.emit("ADD_ERROR_USER_MODAL_EDIT", client, modal);
+                break;
         }
     }
 }

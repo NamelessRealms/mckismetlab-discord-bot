@@ -20,6 +20,7 @@ import { environment } from "./environment/Environment";
 import { Client, Intents } from "discord.js";
 import SelectMenuEvent from "./clientEvent/events/SelectMenuEvent";
 import PlayerCommand from "./command/commands/PlayerCommand";
+import ClearCommand from "./command/commands/ClearCommand";
 
 const discordModals = require("discord-modals");
 
@@ -70,7 +71,8 @@ export default class Main {
                     new IpCommand(),
                     new ServerCommandCommand(),
                     new EmbedCommand(),
-                    new PlayerCommand()
+                    new PlayerCommand(),
+                    new ClearCommand()
                 ]);
 
                 new WhitelistApply(this._client, this._store).init();

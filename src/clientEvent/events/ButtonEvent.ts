@@ -36,6 +36,15 @@ export default class ButtonEvent implements IEvent<"interactionCreate"> {
             case "WHITELIST_CLEAR_CANCEL":
                 SubscriptionEvent.emit("WHITELIST_CLEAR_CANCEL", client, interaction);
                 break;
+            case "ERROR_USER_NICKNAME_CANCEL":
+                SubscriptionEvent.emit("ERROR_USER_NICKNAME_CANCEL", client, interaction);
+                break;
+            case "ERROR_USER_NICKNAME_CONFIRM":
+                SubscriptionEvent.emit("ERROR_USER_NICKNAME_CONFIRM", client, interaction);
+                break;
+            case "ADD_ERROR_USER_NICKNAME_BUTTON":
+                SubscriptionEvent.emit("ADD_ERROR_USER_NICKNAME_BUTTON", client, interaction);
+                break;
         }
     }
 
