@@ -53,5 +53,13 @@ export const environment = {
 
     serverStatus: {
         channelId: "543793297269850133"
+    },
+    
+    welcome: {
+        channelId: "485695057526128641"
+    },
+
+    rule: {
+        channelId: "604231523901767719"
     }
 }
