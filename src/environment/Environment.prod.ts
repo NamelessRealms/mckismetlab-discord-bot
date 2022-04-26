@@ -61,5 +61,9 @@ export const environment = {
 
     rule: {
         channelId: "604231523901767719"
+    },
+
+    generalMember: {
+        roleId: "672078251056693298"
     }
 }
