@@ -82,7 +82,8 @@ export default class WhitelistApply {
                 new MessageButton()
                     .setCustomId("WHITELIST_APPLY")
                     .setLabel("申請白名單")
-                    .setStyle("PRIMARY"),
+                    .setStyle("PRIMARY")
+                    .setDisabled(!WhitelistApply._store.getWhitelistApplyState()),
                 new MessageButton()
                     .setCustomId("SEARCH_WHITELIST")
                     .setLabel("檢查白名單")
