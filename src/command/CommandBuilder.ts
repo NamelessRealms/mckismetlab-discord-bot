@@ -54,7 +54,15 @@ export default class CommandBuilder {
             });
 
             // register command permission
-            await this._client.guilds.cache.get(this._guildId)?.commands.permissions.set({ fullPermissions: permissions });
+            // await this._client.guilds.cache.get(this._guildId)?.commands.permissions.set({ fullPermissions: permissions });
+
+            // const guild = this._client.guilds.cache.get(this._guildId);
+            // if(guild !== undefined) {
+            //     for(let permission of permissions) {
+            //         const command = await guild.commands.fetch(permission.id);
+            //         command.permissions.add({ permissions: permission.permissions });
+            //     }
+            // }
 
             // listener interactionCreate event
             this._client.on("interactionCreate", (interaction) => {
