@@ -36,8 +36,16 @@ export default class ServerCommandCommand extends SlashCommandBase {
                             .setName("伺服器")
                             .setDescription("選擇伺服器")
                             .setRequired(true)
-                            .addChoice("主服模組包伺服器", "mckismetlab-main-server")
-                            .addChoice("測試伺服器", "mckismetlab-test-server")
+                            .addChoices(
+                                {
+                                    name: "主服模組包伺服器",
+                                    value: "mckismetlab-main-server"
+                                },
+                                {
+                                    name: "測試伺服器",
+                                    value: "mckismetlab-test-server"
+                                }
+                            )
                     )
                     .addIntegerOption(option =>
                         option
@@ -78,7 +86,7 @@ export default class ServerCommandCommand extends SlashCommandBase {
                 this._clearWhitelist(interaction);
                 break;
             case "apply":
-            this._setWhitelistStatus(interaction);
+                this._setWhitelistStatus(interaction);
                 break;
         }
 
@@ -128,10 +136,10 @@ export default class ServerCommandCommand extends SlashCommandBase {
 
     private _setWhitelistStatus(interaction: CommandInteraction) {
         const state = interaction.options.getBoolean("接受狀態");
-        if(state === null) throw new Error("State not null");
+        if (state === null) throw new Error("State not null");
         WhitelistApply.setWhitelistStatus(state);
-        interaction.reply({ content: `白名單接受狀態: ${state ? "Yse" : "No"}`, ephemeral: true});
-    } 
+        interaction.reply({ content: `白名單接受狀態: ${state ? "Yse" : "No"}`, ephemeral: true });
+    }
 
     private async _clearWhitelist(interaction: CommandInteraction<CacheType>) {
         try {

@@ -13,15 +13,25 @@ export default class EmbedCommand extends SlashCommandBase {
             .setName("類型")
             .setDescription("Select Embed Type")
             .setRequired(true)
-            .addChoice("模組包", "modpack")
-            .addChoice("啟動器", "launcher")
-            .addChoice("規則", "rules"),
+            .addChoices(
+                {
+                    name: "模組包",
+                    value: "modpack"
+                },
+                {
+                    name: "啟動器",
+                    value: "launcher"
+                },
+                {
+                    name: "規則",
+                    value: "rules"
+                }
+            ),
         new SlashCommandChannelOption()
             .setName("頻道")
             .setDescription("傳送的頻道 @channel")
             .setRequired(true)
-            .addChannelType(0)
-            .addChannelType(5)
+            .addChannelTypes(0, 5)
     ]
     public permissions(): { id: string; type: "USER" | "ROLE"; permission: boolean; }[] {
         return [
