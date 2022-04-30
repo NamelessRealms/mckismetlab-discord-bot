@@ -47,7 +47,7 @@ export default class ClearCommand extends SlashCommandBase {
 
     private async _errorFormatNameUser(interaction: CommandInteraction) {
 
-        const nickNameRegex = /.\S+\s?-\s?[a-zA-Z0-9_]+/;
+        const nickNameRegex = /.+\s?-\s?[a-zA-Z0-9_]+/;
         // const nickNameRegex = /[a-zA-Z\u4e00-\u9fa5]+-\w+/;
 
         await interaction.deferReply({ ephemeral: true });
