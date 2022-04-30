@@ -1,4 +1,4 @@
-import { SlashCommandSubcommandBuilder, SlashCommandSubcommandGroupBuilder, ToAPIApplicationCommandOptions } from "@discordjs/builders";
+import { SlashCommandSubcommandGroupBuilder, ToAPIApplicationCommandOptions } from "@discordjs/builders";
 import { Modal, ModalSubmitInteraction, showModal, TextInputComponent } from "discord-modals";
 import { CommandInteraction, CacheType, GuildMember, MessageActionRow, MessageButton, ButtonInteraction, Client } from "discord.js";
 import ApiService from "../../api/ApiService";
@@ -47,6 +47,9 @@ export default class ClearCommand extends SlashCommandBase {
 
     private async _errorFormatNameUser(interaction: CommandInteraction) {
 
+        const nickNameRegex = /.\S+\s?-\s?[a-zA-Z0-9_]+/;
+        // const nickNameRegex = /[a-zA-Z\u4e00-\u9fa5]+-\w+/;
+
         await interaction.deferReply({ ephemeral: true });
 
         if (!await Utils.checkApiServer()) {
@@ -61,33 +64,39 @@ export default class ClearCommand extends SlashCommandBase {
             return;
         }
 
-        const members = await guild.members.fetch();
+        const collectionMembers = await guild.members.fetch();
 
+        const originalUsers = new Array<GuildMember>();
         let kickUsers = new Array<{ member: GuildMember; uuid: string | null, text: string }>();
 
-        for (let [id, member] of members) {
-            const nickName = member.nickname;
-            if (!member.user.bot && (nickName === null || nickName.match(/[a-zA-Z\u4e00-\u9fa5]+-\w+/) === null)) {
+        for (let [id, member] of collectionMembers) {
+
+            if(!member.user.bot) originalUsers.push(member);
+
+            const adminRole = member.roles.cache.get(environment.admin.roleId);
+            let nickName = member.nickname;
+            const nickNameMatch = nickName !== null ? nickName.match(nickNameRegex) : null;
+            if(nickNameMatch !== null) nickName = nickNameMatch[0] === nickName ? nickNameMatch[0] : null;
+
+            if (!member.user.bot && adminRole === undefined && nickName === null) {
                 const userLink = await ApiService.getUserLink(member.user.id);
                 let serverWhitelist: Array<IWhitelistUser> | null = null;
                 if (userLink !== null) serverWhitelist = await ApiService.getServerWhitelist(userLink.minecraft_uuid);
                 kickUsers.push({
                     member: member,
                     uuid: serverWhitelist !== null ? serverWhitelist[0].minecraft_uuid : null,
-                    text: `name: ${member.user.tag}, nickName: ${member.nickname}, id: ${member.user.id}, whitelist: ${serverWhitelist !== null ? "Yse" : "No"}`
+                    text: `nickName: ${member.nickname}, nameTag: ${member.user.tag}, userId: ${member.user.id}, whitelist: ${serverWhitelist !== null ? "Yse" : "No"}`
                 });
             }
         }
 
-
-
-        await interaction.editReply({ components: [this._getErrorNameButtonComponents()], files: [{ attachment: Buffer.from(this._getTextKickUsers(kickUsers)), name: "kickUsers.txt" }] });
+        await interaction.editReply({ components: [this._getErrorNameButtonComponents()], files: [{ attachment: Buffer.from(this._getTextKickUsers(originalUsers, kickUsers)), name: "kickUsers.txt" }] });
 
         const subscriptionAddExceptionUserEvent = new SubscriptionEvent("ADD_ERROR_USER_MODAL_EDIT", interaction.user.id);
         subscriptionAddExceptionUserEvent.subscription((client: Client, modal: ModalSubmitInteraction) => {
             const discordUserId = modal.getTextInputValue("DISCORD_ID");
             kickUsers = kickUsers.filter((kickUser) => kickUser.member.user.id !== discordUserId);
-            modal.update({ components: [this._getErrorNameButtonComponents()], files: [{ attachment: Buffer.from(this._getTextKickUsers(kickUsers)), name: "kickUsers.txt" }] });
+            modal.update({ components: [this._getErrorNameButtonComponents()], files: [{ attachment: Buffer.from(this._getTextKickUsers(originalUsers, kickUsers)), name: "kickUsers.txt" }] });
         });
 
         // subscription button
@@ -120,7 +129,7 @@ export default class ClearCommand extends SlashCommandBase {
             subscriptionAddExceptionUserButtonEvent.delete();
             subscriptionErrorUserNameCancelEvent.delete();
             subscriptionAddExceptionUserEvent.delete();
-            inter.update({ content: "❌ 取消踢出任務", components: [], files: [{ attachment: Buffer.from(this._getTextKickUsers(kickUsers)), name: "kickUsers.txt" }] });
+            inter.update({ content: "❌ 取消踢出任務", components: [], files: [{ attachment: Buffer.from(this._getTextKickUsers(originalUsers, kickUsers)), name: "kickUsers.txt" }] });
         });
 
         subscriptionErrorUserNameConfirmEvent.subscriptionOnce(async (client: Client, inter: ButtonInteraction) => {
@@ -131,7 +140,7 @@ export default class ClearCommand extends SlashCommandBase {
             subscriptionAddExceptionUserEvent.delete();
 
             const files: Array<{ attachment: Buffer, name: string }> = new Array();
-            files.push({ attachment: Buffer.from(this._getTextKickUsers(kickUsers)), name: "kickUsers.txt" });
+            files.push({ attachment: Buffer.from(this._getTextKickUsers(originalUsers, kickUsers)), name: "kickUsers.txt" });
 
             await inter.update({ content: "⏱ 正在踢出用戶....", components: [this._getErrorNameButtonComponents(true)], files: files });
 
@@ -154,8 +163,8 @@ export default class ClearCommand extends SlashCommandBase {
         });
     }
 
-    private _getTextKickUsers(kickUsers: Array<{ member: GuildMember; text: string }>) {
-        return `${Dates.fullYearTime()}\n\n被踢出的名單:\n\n${kickUsers.map((kickUser) => kickUser.text).join("\n")}`;
+    private _getTextKickUsers(originalUsers: Array<GuildMember>, kickUsers: Array<{ member: GuildMember; text: string }>) {
+        return `${Dates.fullYearTime()}\n\n判斷人數: ${originalUsers.length}\n被踢出人數: ${kickUsers.length}\n\n被踢出的名單:\n\n${kickUsers.map((kickUser) => kickUser.text).join("\n")}`;
     }
 
     private _getErrorNameButtonComponents(disabled: boolean = false) {
