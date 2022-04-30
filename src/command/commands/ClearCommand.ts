@@ -71,9 +71,9 @@ export default class ClearCommand extends SlashCommandBase {
 
         for (let [id, member] of collectionMembers) {
 
-            if(!member.user.bot) originalUsers.push(member);
-
             const adminRole = member.roles.cache.get(environment.admin.roleId);
+            if(!member.user.bot && adminRole === undefined) originalUsers.push(member);
+
             let nickName = member.nickname;
             const nickNameMatch = nickName !== null ? nickName.match(nickNameRegex) : null;
             if(nickNameMatch !== null) nickName = nickNameMatch[0] === nickName ? nickNameMatch[0] : null;
