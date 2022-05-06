@@ -85,18 +85,23 @@ export default class EmbedCommand extends SlashCommandBase {
 
     private _modpackEmbed(interaction: CommandInteraction<CacheType>): Array<MessageEmbed> {
 
-        const modpackName = "FTB OceanBlock";
-        const modpackVersion = "1.11.0";
-        const modpackURL = "https://feed-the-beast.com/modpack/ftb_oceanblock";
-        const modpackImgURL = "https://apps.modpacks.ch/modpacks/art/87/logo.png";
+        const modpackName = "Project Ozone 3";
+        const modpackVersion = "3.4.6";
+        const modpackURL = "https://www.curseforge.com/minecraft/modpacks/project-ozone-3-a-new-way-forward";
+        const modpackImgURL = "https://media.forgecdn.net/avatars/thumbnails/153/427/64/64/636618242985977538.png";
         const serverIP = "mckismetlab.net";
 
         const addedModsArray: Array<{ modName: string; modVersion: string, modURL: string }> = [
-            // {
-            //     modName: "Item Blacklist",
-            //     modVersion: "1.4.3",
-            //     modURL: "https://www.curseforge.com/minecraft/mc-mods/item-blacklist/download/2776296"
-            // }
+            {
+                modName: "Item Blacklist",
+                modVersion: "1.4.3",
+                modURL: "https://www.curseforge.com/minecraft/mc-mods/item-blacklist/download/2776296"
+            },
+            {
+                modName: "DupeFix",
+                modVersion: "3.1.6",
+                modURL: "https://www.curseforge.com/minecraft/mc-mods/dupefix-project/files/3424173"
+            }
         ];
 
         const addedMods = () => {
