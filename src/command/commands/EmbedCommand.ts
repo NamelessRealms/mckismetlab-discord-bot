@@ -132,7 +132,7 @@ export default class EmbedCommand extends SlashCommandBase {
 
         let embed = new MessageEmbed()
             .setTitle("📦 **下載 無名啟動器 (BETA)**")
-            .setDescription("準備好遊玩無名伺服器了嗎? 你是不是還在煩惱每次我們更換模組包都要自己手動安裝😤還有各種額外的模組都也要自己手動安裝。無名伺服器歡迎你使用我們自己推出的啟動器讓你方便快速啟動遊戲，無需自己安裝模組包，在這裡可以找到! 我們本服啟動器下載連結。\n\n⚠ *無名啟動器只有這裡是我們上傳的位置連結，如果你是從其他地方下載本服啟動器，其中可能包含病毒，會發生帳號被盜 / 電腦損壞其他的任何損失，對此我們概不負責。*\n\n" + "*⚠ 目前本服啟動器已知的問題，無名啟動器目前尚未簽章，這可能會發生各家的瀏覽器 / 作業系統自我保護機制 / 防毒軟體 視為病毒，從下面訊息下載連結是安全的，請務必不要從其他地方下載本服無名啟動器。*\n\n" + "🔗 **無名啟動器下載:** [點擊下載](https://mckismetlab.net/#mckismetlab-launcher)\n📑 **無名啟動器版本日誌:** [點我查看](https://github.com/QuasiMkl/mckismetlab-launcher/releases)\n\n📬 問題回報說明越清楚越好，能使我 Quasi 處理效率提升，[問題回報連結](https://github.com/QuasiMkl/mckismetlab-launcher/issues/new/choose)。\n\u200b")
+            .setDescription("準備好遊玩無名伺服器了嗎? 你是不是還在煩惱每次我們更換模組包都要自己手動安裝😤還有各種額外的模組都也要自己手動安裝。無名伺服器歡迎你使用我們自己推出的啟動器讓你方便快速啟動遊戲，無需自己安裝模組包，在這裡可以找到! 我們本服啟動器下載連結。\n\n⚠ *無名啟動器只有這裡是我們上傳的位置連結，如果你是從其他地方下載本服啟動器，其中可能包含病毒，會發生帳號被盜 / 電腦損壞其他的任何損失，對此我們概不負責。*\n\n" + "*⚠ 目前本服啟動器已知的問題，無名啟動器目前尚未簽章，這可能會發生各家的瀏覽器 / 作業系統自我保護機制 / 防毒軟體 視為病毒，從下面訊息下載連結是安全的，請務必不要從其他地方下載本服無名啟動器。*\n\n" + "🔗 **無名啟動器下載:** [點擊下載](https://mckismetlab.net/launcher)\n📑 **無名啟動器版本日誌:** [點我查看](https://github.com/mckismetlab/mckismetlab-launcher/releases)\n\n📬 問題回報說明越清楚越好，能使我 Quasi 處理效率提升，[問題回報連結](https://github.com/mckismetlab/mckismetlab-launcher/issues/new/choose)。\n\u200b")
             .setColor("#7289DA")
             .setFooter({
                 text: "MCKISMETLAB 無名伺服器 | 模組生存 ⚔ 冒險前進",
