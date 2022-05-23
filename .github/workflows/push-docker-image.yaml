@@ -53,4 +53,4 @@ jobs:
       env:
         webhook_url: ${{ secrets.WEBHOOK_URL }}/mkl-discord-build-webhook
         webhook_secret: ${{ secrets.WEBHOOK_SECRET }}
-        webhook_auth: ${{ secrets.WEBHOOK_USERNAME }}:${{ secrets.WEBHOOK_PASSWORD }}
+        # webhook_auth: ${{ secrets.WEBHOOK_USERNAME }}:${{ secrets.WEBHOOK_PASSWORD }}
