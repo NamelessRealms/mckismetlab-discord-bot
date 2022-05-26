@@ -102,7 +102,7 @@ export default class ServerCommandCommand extends SlashCommandBase {
             return;
         }
 
-        await interaction.deferReply();
+        await interaction.deferReply({ ephemeral: false });
 
         try {
 
@@ -114,19 +114,17 @@ export default class ServerCommandCommand extends SlashCommandBase {
 
             const serverReplyText = await SocketIo.emitSocket<string>("COMMAND_RUN", "mckismetlab-main-server", commandText.replace("/", ""));
 
-            interaction.deleteReply();
-
             if (serverReplyText.length !== 0 || !serverReplyText === null) {
                 if (serverReplyText.length < 3999) {
-                    // interaction.editReply({ content: serverReplyText });
-                    interaction.channel?.send({ content: serverReplyText });
+                    interaction.editReply({ content: serverReplyText });
+                    // interaction.channel?.send({ content: serverReplyText });
                 } else {
-                    interaction.channel?.send({ content: "指令執行成功 (但回傳的內容太長，無法看到執行結果)" });
-                    // interaction.editReply({ content: "指令執行成功 (但回傳的內容太長，無法看到執行結果)" });
+                    // interaction.channel?.send({ content: "指令執行成功 (但回傳的內容太長，無法看到執行結果)" });
+                    interaction.editReply({ content: "指令執行成功 (但回傳的內容太長，無法看到執行結果)" });
                 }
             } else {
-                interaction.channel?.send({ content: "指令執行成功，沒有回傳內容。" });
-                // interaction.editReply({ content: "指令執行成功，沒有回傳內容。" });
+                // interaction.channel?.send({ content: "指令執行成功，沒有回傳內容。" });
+                interaction.editReply({ content: "指令執行成功，沒有回傳內容。" });
             }
 
         } catch (error: any) {
