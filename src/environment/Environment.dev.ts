@@ -7,6 +7,10 @@ export const environment = {
         roleId: "782588074109567036"
     },
 
+    waitWhitelistNoticesRole: {
+        roleId: "979219635733925948"
+    },
+
     // 頻道連結 channelId -> minecraftServerId
     chatChannelLink: [
         {
