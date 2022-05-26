@@ -87,6 +87,10 @@ export default class WhitelistApply {
                 new MessageButton()
                     .setCustomId("SEARCH_WHITELIST")
                     .setLabel("檢查白名單")
+                    .setStyle("SECONDARY"),
+                new MessageButton()
+                    .setCustomId("WAIT_WHITELIST_NOTICE")
+                    .setLabel("待申請白名單通知")
                     .setStyle("SECONDARY")
             );
 
@@ -119,6 +123,25 @@ export default class WhitelistApply {
         this._store.setWhitelistApplyState(state);
         this._store.save();
         this.updateApplyEmbed();
+    }
+
+    public static async getWaitWhitelistNotices(interaction: ButtonInteraction) {
+
+        const member = interaction.member;
+        if (member === null) throw new Error("Member not null.");
+        const guild = interaction.guild
+        if (guild === null) throw new Error("Guild not null.");
+        const waitWhitelistNoticesRole = guild.roles.cache.get(environment.waitWhitelistNoticesRole.roleId);
+        if (waitWhitelistNoticesRole === undefined) throw new Error("waitWhitelistNoticesRole not null.");
+
+        const isWaitWhitelistNoticesRole = (member as GuildMember).roles.cache.get(waitWhitelistNoticesRole.id) !== undefined;
+        if(isWaitWhitelistNoticesRole) {
+            await (member as GuildMember).roles.remove(waitWhitelistNoticesRole);
+            interaction.reply({ ephemeral: true, content: "♻ 已收回 ***待申請白名單通知*** 身分組！" });
+        } else {
+            await (member as GuildMember).roles.add(waitWhitelistNoticesRole);
+            interaction.reply({ ephemeral: true, content: "✅ 已領取 ***待申請白名單通知*** 身分組！" });
+        }
     }
 
     public static async apply(interaction: ButtonInteraction<CacheType>) {
@@ -441,6 +464,12 @@ export default class WhitelistApply {
 
             // discord user add whitelist role
             await member.roles.add(roleWhitelist);
+
+            // discord user remove waitWhitelistNotices role
+            const waitWhitelistNoticesRole = guild.roles.cache.get(environment.waitWhitelistNoticesRole.roleId);
+            if(waitWhitelistNoticesRole !== undefined) {
+                await member.roles.remove(waitWhitelistNoticesRole);
+            }
 
             return {
                 verifyState: VerifyReturnEnum.success,

@@ -18,6 +18,9 @@ export default class ButtonEvent implements IEvent<"interactionCreate"> {
             case "WHITELIST_APPLY":
                 WhitelistApply.apply(interaction);
                 break;
+            case "WAIT_WHITELIST_NOTICE":
+                WhitelistApply.getWaitWhitelistNotices(interaction);
+                break;
             case "WHITELIST_APPLY_CANCEL":
                 SubscriptionEvent.emit("WHITELIST_APPLY_CANCEL", client, interaction);
                 break;
