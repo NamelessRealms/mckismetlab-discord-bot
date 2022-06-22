@@ -38,7 +38,8 @@ export default class PlayerCommand extends SlashCommandBase {
             const playerNames = await MojangApi.getPlayerName(userLink.minecraft_uuid);
             const playerName = playerNames !== null ? playerNames[playerNames.length - 1] !== undefined ? playerNames.pop()?.name as string : null : null;
 
-            const usersTime = await SocketIo.emitSocket<Array<IUserTime>>("GET_PLAYER_TIME", "mckismetlab-main-server", {
+            const usersTime = await SocketIo.emitSocket<Array<IUserTime>>("GET_MC_SERVER_PLAYER_TIME", {
+                serverId: "mckismetlab-main-server",
                 players: [
                     {
                         minecraftUuid: userLink.minecraft_uuid

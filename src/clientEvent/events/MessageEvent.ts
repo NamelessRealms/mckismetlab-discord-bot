@@ -4,6 +4,7 @@ import SocketIo from "../../socket/SocketIo";
 import IEvent from "../IEvent";
 
 export default class MessageEvent implements IEvent<"messageCreate"> {
+    
     public event: keyof ClientEvents = "messageCreate";
     public execute(client: Client, message: Message) {
         if(message.author.bot) return;
@@ -19,7 +20,7 @@ export default class MessageEvent implements IEvent<"messageCreate"> {
 
             if (link.discord_channel_id === channelId) {
 
-                const socket = SocketIo.getSocket(link.minecraft_server_id);
+                const socket = SocketIo.getSocket();
 
                 if (socket !== null) {
 
@@ -30,6 +31,7 @@ export default class MessageEvent implements IEvent<"messageCreate"> {
                     const userNickName = userData.nickname !== null ? userData.nickname : userData.user.username;
 
                     socket.emit("MESSAGE_CREATE", {
+                        serverId: link.minecraft_server_id,
                         username: userNickName,
                         content: content
                     });

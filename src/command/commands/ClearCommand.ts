@@ -54,13 +54,13 @@ export default class ClearCommand extends SlashCommandBase {
 
         if (!await Utils.checkApiServer()) {
             const embed = Embeds.apiServerOfflineEmbed();
-            interaction.editReply({ embeds: [embed] });
+            await interaction.editReply({ embeds: [embed] });
             return;
         }
 
         const guild = interaction.guild;
         if (guild === null) {
-            interaction.editReply({ content: "Not Guild." });
+            await interaction.editReply({ content: "Not Guild." });
             return;
         }
 
@@ -108,7 +108,7 @@ export default class ClearCommand extends SlashCommandBase {
 
             const modal = new Modal()
                 .setCustomId("ADD_ERROR_USER_MODAL_EDIT")
-                .setTitle("申請白名單")
+                .setTitle("例外用戶")
                 .addComponents(
                     new TextInputComponent()
                         .setCustomId("DISCORD_ID")

@@ -1,4 +1,5 @@
 export default interface ICommand {
+    serverId: string;
     commandName: string;
     senderName: string;
     commandString: string;

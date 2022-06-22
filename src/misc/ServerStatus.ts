@@ -54,7 +54,8 @@ export default class ServerStatus {
 
         try {
 
-            const serverInfoReceive = await SocketIo.emitSocket<IReceiveServerInfo>("GET_SERVER_INFO", "mckismetlab-main-server");
+            const serverId = "mckismetlab-main-server";
+            const serverInfoReceive = await SocketIo.emitSocket<IReceiveServerInfo>("GET_MC_SERVER_TPS_INFO", { serverId: serverId });
 
             serverInfo.mainStatus = "✅上線";
             serverInfo.online = serverInfoReceive.playerList;

@@ -21,6 +21,7 @@ import { Client, Intents } from "discord.js";
 import SelectMenuEvent from "./clientEvent/events/SelectMenuEvent";
 import PlayerCommand from "./command/commands/PlayerCommand";
 import ClearCommand from "./command/commands/ClearCommand";
+import MklWebhook from "./MklWebhook";
 
 const discordModals = require("discord-modals");
 
@@ -54,7 +55,11 @@ export default class Main {
                 new ServerStatus(this._client, this._store).init();
 
                 // socket listener
-                new SocketIo(this._client).listeners();
+                // new SocketIo(this._client).listeners();
+                new SocketIo(this._client).connect();
+
+                // init webhooks
+                new MklWebhook(this._client).initChatChannelWebhook();
 
                 // register event
                 new ClientEvents(this._client).register([

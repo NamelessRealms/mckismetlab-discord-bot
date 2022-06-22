@@ -134,7 +134,7 @@ export default class WhitelistClear {
                             const roleWhitelist = guild.roles.cache.get(environment.roleWhitelist.roleId);
                             if (roleWhitelist === undefined) throw new Error("RoleWhitelist not null.");
 
-                            member.roles.remove(roleWhitelist)
+                            await member.roles.remove(roleWhitelist)
                                 .catch(() => {
                                     failedText = `name: ${clearUser.user.minecraftName}, guild user: Yse, user role remove: No`;
                                 });
@@ -142,6 +142,7 @@ export default class WhitelistClear {
                         } else {
                             failedText += `name: ${clearUser.user.minecraftName}, guild user: No`;
                         }
+
                     } else {
                         failedText += `name: ${clearUser.user.minecraftName}, guild user: No`;
                     }
@@ -194,7 +195,7 @@ export default class WhitelistClear {
     }
 
     public static async _getPlayersTime(checkWhitelist: Array<ICheckWhitelist>, serverId: string, byTimeHours?: number, clearSponsor: boolean = false) {
-        const playersTime = await SocketIo.emitSocket<Array<IUserTime>>("GET_PLAYER_TIME", serverId, { players: checkWhitelist });        
+        const playersTime = await SocketIo.emitSocket<Array<IUserTime>>("GET_MC_SERVER_PLAYER_TIME", { serverId: serverId, players: checkWhitelist });        
         for (let whitelist of checkWhitelist) {
             const playerTime = playersTime.find(value => value.minecraftUuid === whitelist.minecraftUuid);
             whitelist.time = playerTime !== undefined ? playerTime.playTime : null;

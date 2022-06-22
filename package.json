@@ -14,14 +14,13 @@
     "dotenv": "^16.0.0",
     "fs-extra": "^10.0.1",
     "got": "11.8.3",
-    "socket.io": "^4.4.1",
+    "socket.io-client": "^4.5.1",
     "uuid": "^8.3.2",
     "winston": "^3.6.0"
   },
   "devDependencies": {
     "@types/fs-extra": "^9.0.13",
     "@types/node": "^17.0.22",
-    "@types/socket.io": "^3.0.2",
     "@types/uuid": "^8.3.4",
     "@types/ws": "^8.5.3",
     "ts-node-dev": "^1.1.8",

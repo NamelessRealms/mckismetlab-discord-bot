@@ -1,4 +1,5 @@
 export default interface IMessagePrivate {
+    serverId: string;
     senderName: string;
     recipientName: string;
     context: string;

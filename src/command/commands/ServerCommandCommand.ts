@@ -112,7 +112,7 @@ export default class ServerCommandCommand extends SlashCommandBase {
                 throw new Error("commandText not null.");
             }
 
-            const serverReplyText = await SocketIo.emitSocket<string>("COMMAND_RUN", "mckismetlab-main-server", commandText.replace("/", ""));
+            const serverReplyText = await SocketIo.emitSocket<string>("COMMAND_RUN_MC_SERVER", { serverId: "mckismetlab-main-server", commandText: commandText.replace("/", "")});
 
             if (serverReplyText.length !== 0 || !serverReplyText === null) {
                 if (serverReplyText.length < 3999) {
@@ -153,7 +153,7 @@ export default class ServerCommandCommand extends SlashCommandBase {
                 throw new Error("serverId not null.");
             }
 
-            if (!SocketIo.checkSocketConnection(serverId)) {
+            if (!await SocketIo.checkSocketConnection(serverId)) {
                 const embed = new MessageEmbed()
                     .setTitle("指定的伺服器未上線，請等待伺服器上線後再嘗試。")
                     .setColor("#FF0000");

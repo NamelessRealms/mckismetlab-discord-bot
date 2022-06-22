@@ -1,133 +1,149 @@
-import { createServer } from "http";
-import { Server, Socket } from "socket.io";
-import { Client, TextChannel, Webhook } from "discord.js";
+import { Client, Webhook } from "discord.js";
 import SocketEvent from "./SocketEvent";
 import MessageEvent from "./events/MessageEvent";
 import LoggerUtil from "../utils/LoggerUtil";
-import CommandEvent from "./events/CommandEvent";
+import { Socket, io } from "socket.io-client";
+import ApiService from "../api/ApiService";
 import MessagePrivateEvent from "./events/MessagePrivateEvent";
+import CommandEvent from "./events/CommandEvent";
 import UserBoostEvent from "./events/UserBoost";
-import { environment } from "../environment/Environment";
 
 export default class SocketIo {
 
-    private port: number = 8080;
     private _logger = new LoggerUtil("SocketIo");
+    // private _authTokens = "";
+    private _clientType = "Discord";
+    private _apiUrl = process.env.API_SERVICE_URL;
     private _client: Client;
-    private static _sockets: Map<string, Socket> = new Map<string, Socket>();
-    private static _webhooks: Map<string, Webhook> = new Map<string, Webhook>();
+    private static _socket: Socket | null = null;
 
     constructor(client: Client) {
         this._client = client;
     }
 
-    public listeners() {
+    public async connect() {
 
-        const httpServer = createServer();
-        const io = new Server(httpServer);
-
-        io.on("connection", (socketConnection: Socket) => {
-
-            // if(socketConnection.conn.remoteAddress !== "::ffff:127.0.0.1") {
-            //     socketConnection.disconnect();
-            //     return;
-            // }
-
-            const doEvent = async (msg: any): Promise<void> => {
-
-                const serverId = msg.server_id;
-                const serverType = msg.serverType;
-                const socket = SocketIo._sockets.get(serverId);
-
-                this._logger.info(`Server id: ${serverId} socket connection.`);
-
-                if (socket !== undefined) {
-                    socket.removeAllListeners();
-                    SocketIo._sockets.delete(serverId);
-                }
-
-                SocketIo._sockets.set(serverId, socketConnection);
-
-                if (serverType === "mcServer") {
-
-                    let webhook = SocketIo._webhooks.get(serverType);
-
-                    if (webhook !== undefined) {
-                        // webhook.removeAllListeners(); // TODO:
-                        SocketIo._webhooks.delete(serverId);
-                    }
-
-                    webhook = await this._doWebhook(serverId);
-
-                    if (webhook !== undefined) {
-                        SocketIo._webhooks.set(serverId, webhook);
-                    }
-
-                    // whitelist Task TODO:
-                    // VerifyWhitelist.whitelistTask(serverId);
-                }
-
-                // register events
-                new SocketEvent(this._client, socketConnection, serverId).register([
-                    new MessageEvent(),
-                    new MessagePrivateEvent(),
-                    new CommandEvent(),
-                    new UserBoostEvent()
-                ]);
-
-                socketConnection.off("init", doEvent);
-            }
-
-            socketConnection.on("init", doEvent);
-        });
-
-        httpServer.listen(this.port);
-        this._logger.info(`Socket server listening on port ${this.port}.`);
-    }
-
-    private async _doWebhook(serverId: string): Promise<Webhook | undefined> {
-
-        const chatChannelLink = environment.chatChannelLink.find((channelLink: any) => channelLink.minecraft_server_id === serverId);
-
-        if (chatChannelLink !== undefined) {
-
-            const channelId: string = chatChannelLink.discord_channel_id;
-            const channel = await this._client.channels.fetch(channelId) as TextChannel;
-            const webhooks = await channel.fetchWebhooks();
-            const webhook = webhooks.find((hook) => hook.name === "mcKismetLab-Bot");
-
-            if (webhook) {
-                return webhook;
-            } else {
-                return (channel as TextChannel).createWebhook("mcKismetLab-Bot");
-            }
+        if (this._apiUrl === undefined) {
+            throw new Error("Socket Api url not null.");
         }
 
-        return undefined;
+        SocketIo._socket = io(this._apiUrl, {
+            autoConnect: false,
+            reconnection: true,
+            query: {
+                clientType: this._clientType,
+                clientId: "main"
+            },
+            auth: {
+                token: await ApiService.login()
+            }
+        });
+
+        SocketIo._socket.on("connect", () => {
+            this._logger.info("Socket Connected.");
+        });
+
+        // register events
+        new SocketEvent(this._client, SocketIo._socket as Socket).register([
+            new MessageEvent(),
+            new MessagePrivateEvent(),
+            new CommandEvent(),
+            new UserBoostEvent()
+        ]);
+
+        // this.initBaseEvent(SocketIo._socket);
+
+        SocketIo._socket.connect();
     }
 
-    public static getSocket(serverId: string): Socket | null {
-        const socket = this._sockets.get(serverId);
-        return socket !== undefined ? socket : null;
+    // public initBaseEvent(socket: Socket) {
+
+    //     socket.on("connect", () => {
+
+    //         this._logger.info("Socket Connected.");
+
+    //         // register events
+    //         new SocketEvent(this._client, SocketIo._socket as Socket).register([
+    //             new MessageEvent(),
+    //             new MessagePrivateEvent(),
+    //             new CommandEvent(),
+    //             new UserBoostEvent()
+    //         ]);
+
+    //     });
+
+    //     socket.on("disconnect", () => {
+    //         this._logger.info("Socket Disconnect.");
+    //     });
+
+    //     socket.on("connect_error", async (error) => {
+    //         try {
+
+    //             let errorJson: { code: number; error: string; error_description: string; } | null = null;
+
+    //             try {
+    //                 errorJson = JSON.parse(error.message);
+    //             } catch (e) {
+    //                 throw new Error(error.message);
+    //             }
+
+    //             if (errorJson === null) return;
+
+    //             if (errorJson.code === 400 || errorJson.code === 401) {
+
+    //                 const newTokenResponse = await ApiService.login();
+
+    //                 if (newTokenResponse === undefined) {
+    //                     throw new Error("Init socket error.");
+    //                 }
+
+    //                 this._authTokens = newTokenResponse;
+
+    //                 if(SocketIo._socket !== null) {
+    //                     SocketIo._socket.removeAllListeners();
+    //                     SocketIo._socket = null;
+    //                 }
+
+    //                 SocketIo._socket = io(this._apiUrl as string, {
+    //                     query: {
+    //                         clientType: this._clientType,
+    //                         clientId: "main"
+    //                     },
+    //                     auth: {
+    //                         token: this._authTokens
+    //                     }
+    //                 });
+
+    //                 this.initBaseEvent(SocketIo._socket);
+    //             }
+
+    //         } catch (error: any) {
+    //             // this._logger.error(error);
+    //         }
+    //     });
+    // }
+
+    public static getSocket(): Socket | null {
+        return this._socket;
     }
 
-    public static deleteSocket(serverId: string): void {
-        this._sockets.delete(serverId);
+    public static checkSocketConnection(serverId: string): Promise<boolean> {
+        return new Promise<boolean>(async (resolve) => {
+            const socket = SocketIo._socket;
+            if (socket === null) return resolve(false);
+            try {
+                const checkSocketConnectionReceive = await this.emitSocket<boolean>("CHECK_SOCKET_CONNECTION", { clientType: "mcServer", clientId: serverId });
+                return resolve(checkSocketConnectionReceive);
+            } catch (error) {
+                return resolve(false);
+            }
+        });
     }
 
-    public static getWebhook(serverId: string): Webhook | null {
-        const webhook = this._webhooks.get(serverId);
-        return webhook !== undefined ? webhook : null;
-    }
+    public static async emitSocket<T>(eventName: string, data?: any): Promise<T> {
+        return new Promise<T>((resolve, reject) => {
 
-    public static checkSocketConnection(serverId: string): boolean {
-        return this._sockets.get(serverId) !== undefined;
-    }
-
-    public static async emitSocket<T>(eventName: string, serverId: string, data?: any): Promise<T> {
-        return new Promise<T>((resolve) => {
-
-            const socket = this.getSocket(serverId);
+            const socket = SocketIo._socket;
 
             if (socket === null) {
                 throw {
@@ -137,13 +153,21 @@ export default class SocketIo {
             }
 
             const listener = (data: T) => {
+
+                if ((data as any).error) {
+                    return reject({
+                        error: "socket-no-online",
+                        error_description: "Socket no online."
+                    });
+                }
+
                 resolve(data);
                 socket.off(eventName, listener);
             }
 
             socket.on(eventName, listener);
-            
-            if(data !== undefined) {
+
+            if (data !== undefined) {
                 socket.emit(eventName, data);
             } else {
                 socket.emit(eventName);
