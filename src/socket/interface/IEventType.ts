@@ -11,4 +11,5 @@ export default interface IEventType {
     COMMAND_CREATE: [command: ICommand];
 
     GET_USER_BOOST: [user: IGetUserBoost];
+    GET_DISCORD_PLAYER_DATA: [id: string];
 }

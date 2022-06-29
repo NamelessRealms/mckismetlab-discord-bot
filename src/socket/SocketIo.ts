@@ -7,6 +7,7 @@ import ApiService from "../api/ApiService";
 import MessagePrivateEvent from "./events/MessagePrivateEvent";
 import CommandEvent from "./events/CommandEvent";
 import UserBoostEvent from "./events/UserBoost";
+import GetDiscordPlayerDataEvent from "./events/GetDiscordPlayerDataEvent";
 
 export default class SocketIo {
 
@@ -48,7 +49,8 @@ export default class SocketIo {
             new MessageEvent(),
             new MessagePrivateEvent(),
             new CommandEvent(),
-            new UserBoostEvent()
+            new UserBoostEvent(),
+            new GetDiscordPlayerDataEvent()
         ]);
 
         // this.initBaseEvent(SocketIo._socket);
