@@ -97,11 +97,11 @@ export default class EmbedCommand extends SlashCommandBase {
                 modVersion: "1.4.3",
                 modURL: "https://www.curseforge.com/minecraft/mc-mods/item-blacklist/files/2776296"
             },
-            {
-                modName: "DupeFix",
-                modVersion: "3.1.6",
-                modURL: "https://www.curseforge.com/minecraft/mc-mods/dupefix-project/files/3424173"
-            }
+            // {
+            //     modName: "DupeFix",
+            //     modVersion: "3.1.6",
+            //     modURL: "https://www.curseforge.com/minecraft/mc-mods/dupefix-project/files/3424173"
+            // }
         ];
 
         const addedMods = () => {
