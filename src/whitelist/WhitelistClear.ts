@@ -134,7 +134,7 @@ export default class WhitelistClear {
                             const roleWhitelist = guild.roles.cache.get(environment.roleWhitelist.roleId);
                             if (roleWhitelist === undefined) throw new Error("RoleWhitelist not null.");
 
-                            member.roles.remove(roleWhitelist)
+                            await member.roles.remove(roleWhitelist)
                                 .catch(() => {
                                     failedText = `name: ${clearUser.user.minecraftName}, guild user: Yse, user role remove: No`;
                                 });
