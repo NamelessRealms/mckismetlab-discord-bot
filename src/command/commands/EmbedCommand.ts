@@ -85,18 +85,18 @@ export default class EmbedCommand extends SlashCommandBase {
 
     private _modpackEmbed(interaction: CommandInteraction<CacheType>): Array<MessageEmbed> {
 
-        const modpackName = "Enigmatica 2: Expert - Extended";
-        const modpackVersion = "0.61.1";
-        const modpackURL = "https://www.curseforge.com/minecraft/modpacks/enigmatica-2-expert-extended";
-        const modpackImgURL = "https://media.forgecdn.net/avatars/472/544/637762945960624722.png";
+        const modpackName = "Sky FABRICation 3";
+        const modpackVersion = "0.5.0";
+        const modpackURL = "https://www.curseforge.com/minecraft/modpacks/sky-fabrication-3";
+        const modpackImgURL = "https://media.forgecdn.net/avatars/581/285/637946147256275674.png";
         const serverIP = "mckismetlab.net";
 
         const addedModsArray: Array<{ modName: string; modVersion: string, modURL: string }> = [
-            {
-                modName: "Item Blacklist",
-                modVersion: "1.4.3",
-                modURL: "https://www.curseforge.com/minecraft/mc-mods/item-blacklist/files/2776296"
-            },
+            // {
+            //     modName: "Item Blacklist",
+            //     modVersion: "1.4.3",
+            //     modURL: "https://www.curseforge.com/minecraft/mc-mods/item-blacklist/files/2776296"
+            // },
             // {
             //     modName: "DupeFix",
             //     modVersion: "3.1.6",
