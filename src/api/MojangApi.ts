@@ -36,6 +36,6 @@ export default class MojangApi {
 
         // return null;
 
-        return [{ name: "無法顯示", changedToAt: 0 }];
+        return [{ name: "無法顯示玩家ID", changedToAt: 0 }];
     }
 }

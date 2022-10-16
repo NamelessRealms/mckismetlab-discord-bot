@@ -85,10 +85,10 @@ export default class EmbedCommand extends SlashCommandBase {
 
     private _modpackEmbed(interaction: CommandInteraction<CacheType>): Array<MessageEmbed> {
 
-        const modpackName = "Sky FABRICation 3";
-        const modpackVersion = "0.5.0";
-        const modpackURL = "https://www.curseforge.com/minecraft/modpacks/sky-fabrication-3";
-        const modpackImgURL = "https://media.forgecdn.net/avatars/581/285/637946147256275674.png";
+        const modpackName = "Not Too Complicated 2";
+        const modpackVersion = "1.5.1";
+        const modpackURL = "https://www.curseforge.com/minecraft/modpacks/not-too-complicated-2";
+        const modpackImgURL = "https://media.forgecdn.net/avatars/396/915/637597266930760605.png";
         const serverIP = "mckismetlab.net";
 
         const addedModsArray: Array<{ modName: string; modVersion: string, modURL: string }> = [
