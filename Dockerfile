@@ -12,7 +12,7 @@ COPY src ./src
 COPY tsconfig.json ./tsconfig.json
 
 # Build tsc
-RUN npm install typescript -g
+RUN npm install typescript@4.6.2 -g
 RUN tsc
 
 # remove development dependencies
