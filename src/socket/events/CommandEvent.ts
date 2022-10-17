@@ -13,6 +13,10 @@ export default class CommandEvent implements ISockerEvent<"COMMAND_CREATE"> {
         const channel = client.channels.cache.get(environment.serverCommandCarriedOut.channelId) as TextChannel;
         if(channel === undefined) return;
 
+        if(command.commandName === "attribute") {
+            return;
+        }
+
         channel.send({
             content: `[${Dates.dateTime()}][${serverId}][x:${"`"}${command.pos[0]}${"`"} y:${"`"}${command.pos[1]}${"`"} z:${"`"}${command.pos[2]}${"`"}][level:${"`"}${command.level}${"`"}][op: ${"`"}${command.op ? "Yes" : "No"}${"`"}]\n執行者: ${"`"}${command.senderName}${"`"} 指令: ${"`"}${command.commandName}${"`"} 內容: ${"`"}${command.commandString}${"`"}`
         });
