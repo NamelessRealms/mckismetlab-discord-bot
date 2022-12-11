@@ -85,18 +85,18 @@ export default class EmbedCommand extends SlashCommandBase {
 
     private _modpackEmbed(interaction: CommandInteraction<CacheType>): Array<MessageEmbed> {
 
-        const modpackName = "Not Too Complicated 2";
-        const modpackVersion = "1.5.1";
-        const modpackURL = "https://www.curseforge.com/minecraft/modpacks/not-too-complicated-2";
-        const modpackImgURL = "https://media.forgecdn.net/avatars/396/915/637597266930760605.png";
+        const modpackName = "Nomifactory (GTCEu Port)";
+        const modpackVersion = "1.4.2";
+        const modpackURL = "https://www.curseforge.com/minecraft/modpacks/nomi-ceu";
+        const modpackImgURL = "https://media.forgecdn.net/avatars/511/500/637830283066849322.png";
         const serverIP = "mckismetlab.net";
 
         const addedModsArray: Array<{ modName: string; modVersion: string, modURL: string }> = [
-            // {
-            //     modName: "Item Blacklist",
-            //     modVersion: "1.4.3",
-            //     modURL: "https://www.curseforge.com/minecraft/mc-mods/item-blacklist/files/2776296"
-            // },
+            {
+                modName: "Item Blacklist",
+                modVersion: "1.4.3",
+                modURL: "https://www.curseforge.com/minecraft/mc-mods/item-blacklist/files/2776296"
+            }
             // {
             //     modName: "DupeFix",
             //     modVersion: "3.1.6",
