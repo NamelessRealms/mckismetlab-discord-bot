@@ -22,6 +22,7 @@ import SelectMenuEvent from "./clientEvent/events/SelectMenuEvent";
 import PlayerCommand from "./command/commands/PlayerCommand";
 import ClearCommand from "./command/commands/ClearCommand";
 import InfoCommand from "./command/commands/infoCommand";
+import RestartCommand from "./command/commands/RestartCommand";
 
 const discordModals = require("discord-modals");
 
@@ -29,7 +30,7 @@ export default class Main {
 
     public static readonly IS_DEV = process.env.NODE_ENV === "development";
     private readonly _store = new Store();
-    private readonly _client = new Client({ intents: [ Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.GUILD_MEMBERS ] });
+    private readonly _client = new Client({ intents: [ Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.GUILD_MEMBERS, Intents.FLAGS.GUILD_PRESENCES ] });
     private readonly _logger = new LoggerUtil("Main");
 
     constructor() {
@@ -74,7 +75,8 @@ export default class Main {
                     new EmbedCommand(),
                     new PlayerCommand(),
                     new ClearCommand(),
-                    new InfoCommand()
+                    new InfoCommand(),
+                    new RestartCommand()
                 ]);
 
                 new WhitelistApply(this._client, this._store).init();

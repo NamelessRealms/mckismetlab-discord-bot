@@ -29,7 +29,7 @@ export default class WhitelistClear {
 
             await interaction.deferReply({ ephemeral: true });
 
-            const serverWhitelist = await this._getServerWhitelist(serverId);
+            const serverWhitelist = await this.getServerWhitelist(serverId);
 
             if (serverWhitelist == null) {
                 interaction.editReply({ content: "資料庫沒有玩家名單" });
@@ -212,7 +212,7 @@ export default class WhitelistClear {
         return checkWhitelist;
     }
 
-    private static async _getServerWhitelist(serverId: string): Promise<Array<IWhitelistUser> | null> {
+    public static async getServerWhitelist(serverId: string): Promise<Array<IWhitelistUser> | null> {
         const allServerWhitelist = await ApiService.getAllServerWhitelist();
         if (allServerWhitelist == null) return null;
         const serverWhitelist = allServerWhitelist.filter(value => value.server_id === serverId);
