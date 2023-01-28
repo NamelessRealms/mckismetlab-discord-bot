@@ -21,6 +21,7 @@ import { Client, Intents } from "discord.js";
 import SelectMenuEvent from "./clientEvent/events/SelectMenuEvent";
 import PlayerCommand from "./command/commands/PlayerCommand";
 import ClearCommand from "./command/commands/ClearCommand";
+import InfoCommand from "./command/commands/infoCommand";
 
 const discordModals = require("discord-modals");
 
@@ -72,7 +73,8 @@ export default class Main {
                     new ServerCommandCommand(),
                     new EmbedCommand(),
                     new PlayerCommand(),
-                    new ClearCommand()
+                    new ClearCommand(),
+                    new InfoCommand()
                 ]);
 
                 new WhitelistApply(this._client, this._store).init();
@@ -91,7 +93,7 @@ export default class Main {
         this._client.user?.setPresence({
             activities: [
                 {
-                    name: `Bot v${environment.version}`,
+                    name: `Minecraft 🎮`,
                     type: "PLAYING"
                 }
             ]

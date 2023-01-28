@@ -3,6 +3,7 @@ import ApiService from "../../api/ApiService";
 import MojangApi from "../../api/MojangApi";
 import SubscriptionEvent from "../../subscription/SubscriptionEvent";
 import Embeds from "../../utils/Embeds";
+import Utils from "../../utils/Utils";
 import WhitelistApply from "../../whitelist/WhitelistApply";
 import IEvent from "../IEvent";
 
@@ -64,10 +65,9 @@ export default class ButtonEvent implements IEvent<"interactionCreate"> {
                 return;
             }
 
-            // TODO: 
+            // TODO:
             const userWhitelist = await ApiService.getServerWhitelist(userLink.minecraft_uuid);
-            const playerNames = await MojangApi.getPlayerName(userLink.minecraft_uuid);
-            const playerName = playerNames !== null ? playerNames[playerNames.length - 1] !== undefined ? playerNames.pop()?.name as string : null : null;
+            const playerName = await Utils.getPlayerName(userLink.minecraft_uuid);
 
             const embed = new MessageEmbed()
                 .setColor("BLUE")
