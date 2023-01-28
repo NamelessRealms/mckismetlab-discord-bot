@@ -36,16 +36,7 @@ export default class ServerCommandCommand extends SlashCommandBase {
                             .setName("伺服器")
                             .setDescription("選擇伺服器")
                             .setRequired(true)
-                            .addChoices(
-                                {
-                                    name: "主服模組包伺服器",
-                                    value: "mckismetlab-main-server"
-                                },
-                                {
-                                    name: "測試伺服器",
-                                    value: "mckismetlab-test-server"
-                                }
-                            )
+                            .addChoices(...environment.serverList)
                     )
                     .addIntegerOption(option =>
                         option
