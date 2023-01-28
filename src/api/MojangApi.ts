@@ -4,6 +4,16 @@ import got from "got";
 const mojangUrl = "https://api.mojang.com/users/profiles";
 const mojangPlayerNameUrl = "https://api.mojang.com/user/profiles";
 
+interface ISkinCapeProfiles {
+    id: string;
+    name: string;
+    properties: Array<{
+        name: string;
+        value: string;
+        signature: string;
+    }>;
+}
+
 export default class MojangApi {
 
     public static async validateSpieler(playerName: string): Promise<IProfiles | null> {
@@ -24,18 +34,29 @@ export default class MojangApi {
      * @param uuid minecraft player uuid
      * @returns minecraft player name
      */
-    public static async getPlayerName(uuid: string): Promise<Array<{ name: string; changedToAt?: number; }> | null> {
+    // public static async getPlayerName(uuid: string): Promise<Array<{ name: string; changedToAt?: number; }> | null> {
 
-        // const response = await got.get<Array<{ name: string; changedToAt?: number; }>>(mojangPlayerNameUrl + `/${uuid}/names`, {
-        //     responseType: "json"
-        // });
+    //     const response = await got.get<Array<{ name: string; changedToAt?: number; }>>(mojangPlayerNameUrl + `/${uuid}/names`, {
+    //         responseType: "json"
+    //     });
 
-        // if (response.statusCode === 200) {
-        //     return response.body;
-        // }
+    //     if (response.statusCode === 200) {
+    //         return response.body;
+    //     }
 
-        // return null;
+    //     return null;
+    // }
 
-        return [{ name: "無法顯示玩家ID", changedToAt: 0 }];
+    public static async getPlayerName(uuid: string): Promise<string | null> {
+
+        const response = await got.get<ISkinCapeProfiles>("https://sessionserver.mojang.com/session/minecraft/profile/" + uuid, {
+            responseType: "json"
+        });
+
+        if(response.statusCode === 200) {
+            return response.body.name;
+        }
+
+        return null;
     }
 }

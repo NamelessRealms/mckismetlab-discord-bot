@@ -10,6 +10,7 @@ import SubscriptionEvent from "../subscription/SubscriptionEvent";
 import MojangApi from "../api/MojangApi";
 import LoggerUtil from "../utils/LoggerUtil";
 import Embeds from "../utils/Embeds";
+import Utils from "../utils/Utils";
 
 enum VerifyReturnEnum {
     minecraftNameUnknown = 0,
@@ -175,8 +176,9 @@ export default class WhitelistApply {
                 }
 
                 // Get minecraft player name
-                const playerNames = await MojangApi.getPlayerName(userLink.minecraft_uuid);
-                if (playerNames !== null) userMinecraftPlayerName = playerNames[playerNames.length - 1] !== undefined ? playerNames.pop()?.name as string : null;
+                // const playerNames = await MojangApi.getPlayerName(userLink.minecraft_uuid);
+                // if (playerNames !== null) userMinecraftPlayerName = playerNames[playerNames.length - 1] !== undefined ? playerNames.pop()?.name as string : null;
+                userMinecraftPlayerName = await Utils.getPlayerName(userLink.minecraft_uuid);
             }
 
         } catch (error: any) {

@@ -17,7 +17,8 @@ export default class Utils {
     }
 
     public static async getPlayerName(uuid: string): Promise<string | null> {
-        const playerNames = await MojangApi.getPlayerName(uuid);
-        return playerNames !== null ? playerNames[playerNames.length - 1] !== undefined ? playerNames.pop()?.name as string : null : null;
+        // const playerNames = await MojangApi.getPlayerName(uuid);
+        // return playerNames !== null ? playerNames[playerNames.length - 1] !== undefined ? playerNames.pop()?.name as string : null : null;
+        return await MojangApi.getPlayerName(uuid);
     }
 }

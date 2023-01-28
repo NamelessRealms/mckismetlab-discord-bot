@@ -6,6 +6,7 @@ import IUserTime from "../../interface/IUserTime";
 import SocketIo from "../../socket/SocketIo";
 import Dates from "../../utils/Dates";
 import Embeds from "../../utils/Embeds";
+import Utils from "../../utils/Utils";
 import SlashCommandBase from "../SlashCommandBase";
 
 export default class PlayerCommand extends SlashCommandBase {
@@ -35,8 +36,7 @@ export default class PlayerCommand extends SlashCommandBase {
             }
 
             const userWhitelist = await ApiService.getServerWhitelist(userLink.minecraft_uuid);
-            const playerNames = await MojangApi.getPlayerName(userLink.minecraft_uuid);
-            const playerName = playerNames !== null ? playerNames[playerNames.length - 1] !== undefined ? playerNames.pop()?.name as string : null : null;
+            const playerName = await Utils.getPlayerName(userLink.minecraft_uuid);
 
             const usersTime = await SocketIo.emitSocket<Array<IUserTime>>("GET_PLAYER_TIME", "mckismetlab-main-server", {
                 players: [
@@ -53,15 +53,15 @@ export default class PlayerCommand extends SlashCommandBase {
                 return;
             }
 
-            const member = (interaction.member as GuildMember);
-            const userNickName = member.nickname !== null ? member.nickname : member.user.username;
+            // const member = (interaction.member as GuildMember);
+            // const userNickName = member.nickname !== null ? member.nickname : member.user.username;
 
             const embed = new MessageEmbed()
                 .setTitle(`🎮 ${playerName} 玩家資料`)
-                .setAuthor({
-                    name: userNickName,
-                    iconURL: interaction.user.avatarURL() as string
-                })
+                // .setAuthor({
+                //     name: userNickName,
+                //     iconURL: interaction.user.avatarURL() as string
+                // })
                 .setThumbnail(`https://crafatar.com/renders/body/${userLink.minecraft_uuid}?overlay`)
                 .setFooter({
                     text: `MCKISMETLAB 無名伺服器 模組生存 ⚔ 冒險前進 ${Dates.time()}`,
@@ -71,7 +71,7 @@ export default class PlayerCommand extends SlashCommandBase {
                 .addFields(
                     {
                         name: "📋 白名單",
-                        value: userWhitelist === null ? "▫ 沒有白名單" : "▫ 有白名單",
+                        value: userWhitelist === null ? "▫ No" : "▫ Yse",
                         inline: true
                     },
                     {
