@@ -131,7 +131,7 @@ export default class EmbedCommand extends SlashCommandBase {
         }
 
         const modpackFields = () => {
-            if (mainAddedModsArray.length >= 0) {
+            if (mainAddedModsArray.length > 0) {
                 return [
                     {
                         name: "➡ 模組包資訊",
@@ -151,7 +151,7 @@ export default class EmbedCommand extends SlashCommandBase {
         }
 
         const deputyModpackFields = () => {
-            if (deputyAddedModsArray.length >= 0) {
+            if (deputyAddedModsArray.length > 0) {
                 return [
                     {
                         name: "➡ 模組包資訊",

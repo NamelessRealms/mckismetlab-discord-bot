@@ -112,11 +112,13 @@ export default class ServerStatus {
             .addFields(
                 {
                     name: "主服模組伺服器",
-                    value: `狀態: ${serversInfo.main.mainStatus}\n人數: ${serversInfo.main.online} 名玩家\n順暢度: ${smoothness(serversInfo.main.TPS)}\nMSPT: ${serversInfo.main.TickTime}`
+                    value: `狀態: ${serversInfo.main.mainStatus}\n人數: ${serversInfo.main.online} 名玩家\n順暢度: ${smoothness(serversInfo.main.TPS)}\nMSPT: ${serversInfo.main.TickTime}`,
+                    inline: true
                 },
                 {
                     name: "副服模組伺服器",
-                    value: `狀態: ${serversInfo.deputy.mainStatus}\n人數: ${serversInfo.deputy.online} 名玩家\n順暢度: ${smoothness(serversInfo.deputy.TPS)}\nMSPT: ${serversInfo.deputy.TickTime}`
+                    value: `狀態: ${serversInfo.deputy.mainStatus}\n人數: ${serversInfo.deputy.online} 名玩家\n順暢度: ${smoothness(serversInfo.deputy.TPS)}\nMSPT: ${serversInfo.deputy.TickTime}`,
+                    inline: true
                 }
             );
 
