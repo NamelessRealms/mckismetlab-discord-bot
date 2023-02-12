@@ -16,6 +16,10 @@ export const environment = {
         {
             discord_channel_id: "521686969001181184",
             minecraft_server_id: "mckismetlab-main-server"
+        },
+        {
+            discord_channel_id: "650527027585351691",
+            minecraft_server_id: "mckismetlab-deputy-server"
         }
     ],
 

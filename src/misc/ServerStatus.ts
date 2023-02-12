@@ -11,12 +11,16 @@ interface IReceiveServerInfo {
     meanTickTime: string;
 }
 
-interface IServerInfo {
-    online: number;
-    TPS: number;
-    TickTime: string;
-    mainStatus: string;
-}
+type serverType = "main" | "deputy";
+
+type IServersInfo = {
+    [type in serverType]: {
+        online: number;
+        TPS: number;
+        TickTime: string;
+        mainStatus: string;
+    };
+};
 
 export default class ServerStatus {
 
@@ -45,40 +49,55 @@ export default class ServerStatus {
 
         const channel = client.channels.cache.get(channelId) as TextChannel;
 
-        const serverInfo = {
-            online: 0,
-            TPS: 0,
-            TickTime: "0",
-            mainStatus: "❎離線"
+        const serversInfo: IServersInfo = {
+            main: {
+                online: 0,
+                TPS: 0,
+                TickTime: "0",
+                mainStatus: "❎離線"
+            },
+            deputy: {
+                online: 0,
+                TPS: 0,
+                TickTime: "0",
+                mainStatus: "❎離線"
+            }
         }
 
         try {
 
-            const serverInfoReceive = await SocketIo.emitSocket<IReceiveServerInfo>("GET_SERVER_INFO", "mckismetlab-main-server");
+            const mainServerInfoReceive = await SocketIo.emitSocket<IReceiveServerInfo>("GET_SERVER_INFO", "mckismetlab-main-server");
+            serversInfo.main.mainStatus = "✅上線";
+            serversInfo.main.online = mainServerInfoReceive.playerList;
+            serversInfo.main.TPS = Number(mainServerInfoReceive.meanTPS);
+            serversInfo.main.TickTime = mainServerInfoReceive.meanTickTime;
 
-            serverInfo.mainStatus = "✅上線";
-            serverInfo.online = serverInfoReceive.playerList;
-            serverInfo.TPS = Number(serverInfoReceive.meanTPS);
-            serverInfo.TickTime = serverInfoReceive.meanTickTime;
+        } catch (error) {};
 
-            this._sendServerStatus(serverInfo, client, channel, messageId);
+        try {
 
-        } catch (error: any) {
-            this._sendServerStatus(serverInfo, client, channel, messageId);
-        }
+            const deputyServerInfoReceive = await SocketIo.emitSocket<IReceiveServerInfo>("GET_SERVER_INFO", "mckismetlab-deputy-server");
+            serversInfo.deputy.mainStatus = "✅上線";
+            serversInfo.deputy.online = deputyServerInfoReceive.playerList;
+            serversInfo.deputy.TPS = Number(deputyServerInfoReceive.meanTPS);
+            serversInfo.deputy.TickTime = deputyServerInfoReceive.meanTickTime;
+
+        } catch (error) {};
+
+        this._sendServerStatus(serversInfo, client, channel, messageId);
     }
 
-    private async _sendServerStatus(serverInfo: IServerInfo, client: Client, channel: TextChannel, messageId: string | null): Promise<void> {
+    private async _sendServerStatus(serversInfo: IServersInfo, client: Client, channel: TextChannel, messageId: string | null): Promise<void> {
 
-        let smoothness = () => {
-            if (Number(serverInfo.TPS) >= 15) {
-                return `😝 非常順暢 TPS: ${Math.round(serverInfo.TPS)}`;
-            } else if (Number(serverInfo.TPS) < 15 && Number(serverInfo.TPS) >= 10) {
-                return `🙂 順暢 TPS: ${Math.round(serverInfo.TPS)}`;
-            } else if (Number(serverInfo.TPS) < 10 && Number(serverInfo.TPS) >= 5) {
-                return `🙁 不順暢 TPS: ${Math.round(serverInfo.TPS)}`;
-            } else if (Number(serverInfo.TPS) < 5) {
-                return `😫 非常不順暢 TPS: ${Math.round(serverInfo.TPS)}`;
+        let smoothness = (tps: number) => {
+            if (Number(tps) >= 15) {
+                return `😝 非常順暢 TPS: ${Math.round(tps)}`;
+            } else if (Number(tps) < 15 && Number(tps) >= 10) {
+                return `🙂 順暢 TPS: ${Math.round(tps)}`;
+            } else if (Number(tps) < 10 && Number(tps) >= 5) {
+                return `🙁 不順暢 TPS: ${Math.round(tps)}`;
+            } else if (Number(tps) < 5) {
+                return `😫 非常不順暢 TPS: ${Math.round(tps)}`;
             }
             return "發生錯誤";
         }
@@ -90,10 +109,16 @@ export default class ServerStatus {
                 text: `MCKISMETLAB 無名伺服器 | 最後更新: ${Dates.time()}`,
                 iconURL: client.user?.avatarURL() as string
             })
-            .addFields({
-                name: "主服模組伺服器:",
-                value: `狀態: ${serverInfo.mainStatus}\n人數: ${serverInfo.online} 名玩家\n順暢度: ${smoothness()}\nMSPT: ${serverInfo.TickTime}`
-            });
+            .addFields(
+                {
+                    name: "主服模組伺服器",
+                    value: `狀態: ${serversInfo.main.mainStatus}\n人數: ${serversInfo.main.online} 名玩家\n順暢度: ${smoothness(serversInfo.main.TPS)}\nMSPT: ${serversInfo.main.TickTime}`
+                },
+                {
+                    name: "副服模組伺服器",
+                    value: `狀態: ${serversInfo.deputy.mainStatus}\n人數: ${serversInfo.deputy.online} 名玩家\n順暢度: ${smoothness(serversInfo.deputy.TPS)}\nMSPT: ${serversInfo.deputy.TickTime}`
+                }
+            );
 
         if (messageId !== null) {
 
