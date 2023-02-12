@@ -85,18 +85,25 @@ export default class EmbedCommand extends SlashCommandBase {
 
     private _modpackEmbed(interaction: CommandInteraction<CacheType>): Array<MessageEmbed> {
 
-        const modpackName = "Nomifactory (GTCEu Port)";
-        const modpackVersion = "1.4.2";
-        const modpackURL = "https://www.curseforge.com/minecraft/modpacks/nomi-ceu";
-        const modpackImgURL = "https://media.forgecdn.net/avatars/511/500/637830283066849322.png";
+        const modpackName = "Chroma Endless";
+        const modpackVersion = "1.0.6";
+        const modpackURL = "https://www.curseforge.com/minecraft/modpacks/chroma-endless";
+        const modpackImgURL = "https://media.forgecdn.net/avatars/627/26/638021459665750880.jpeg";
         const serverIP = "play.mckismetlab.net";
 
-        const addedModsArray: Array<{ modName: string; modVersion: string, modURL: string }> = [
-            {
-                modName: "Item Blacklist",
-                modVersion: "1.4.3",
-                modURL: "https://www.curseforge.com/minecraft/mc-mods/item-blacklist/files/2776296"
-            }
+        const deputyCat = true;
+        const deputyModpackName = "Nomifactory (GTCEu Port)";
+        const deputyModpackVersion = "1.4.2";
+        const deputyModpackURL = "https://www.curseforge.com/minecraft/modpacks/nomi-ceu";
+        const deputyModpackImgURL = "https://media.forgecdn.net/avatars/511/500/637830283066849322.png";
+        const deputyServerIP = "deputy.mckismetlab.net";
+
+        const mainAddedModsArray: Array<{ modName: string; modVersion: string, modURL: string }> = [
+            // {
+            //     modName: "Item Blacklist",
+            //     modVersion: "1.4.3",
+            //     modURL: "https://www.curseforge.com/minecraft/mc-mods/item-blacklist/files/2776296"
+            // }
             // {
             //     modName: "DupeFix",
             //     modVersion: "3.1.6",
@@ -104,27 +111,35 @@ export default class EmbedCommand extends SlashCommandBase {
             // }
         ];
 
-        const addedMods = () => {
+        const deputyAddedModsArray: Array<{ modName: string; modVersion: string, modURL: string }> = [
+            {
+                modName: "Item Blacklist",
+                modVersion: "1.4.3",
+                modURL: "https://www.curseforge.com/minecraft/mc-mods/item-blacklist/files/2776296"
+            }
+        ];
+
+        const addedMods = (addMods: Array<{ modName: string; modVersion: string, modURL: string }>) => {
 
             let addedModsStr: string = "";
 
-            for (let addedMod of addedModsArray) {
-                addedModsStr += `▫ 模組名稱: ${addedMod.modName}\n▫ 模組版本: ${addedMod.modVersion}\n▫ 模組下載: [點擊下載](${addedMod.modURL})\n\n`;
+            for (let addMod of addMods) {
+                addedModsStr += `▫ 模組名稱: ${addMod.modName}\n▫ 模組版本: ${addMod.modVersion}\n▫ 模組下載: [點擊下載](${addMod.modURL})\n\n`;
             }
 
             return addedModsStr;
         }
 
         const modpackFields = () => {
-            if (addedModsArray.length >= 0) {
+            if (mainAddedModsArray.length >= 0) {
                 return [
                     {
                         name: "➡ 模組包資訊",
                         value: `▫ 模組包名稱: ${modpackName}\n▫ 模組包版本: ${modpackVersion}\n▫ 模組包主頁: [主頁連結](${modpackURL})\n▫ 伺服器IP: ${serverIP}`
                     },
                     {
-                        name: `➡ 玩家必須額外加裝 ${addedModsArray.length} 個模組才能進入伺服器`,
-                        value: addedMods()
+                        name: `➡ 玩家必須額外加裝 ${mainAddedModsArray.length} 個模組才能進入伺服器`,
+                        value: addedMods(mainAddedModsArray)
                     }
                 ]
             } else {
@@ -135,7 +150,27 @@ export default class EmbedCommand extends SlashCommandBase {
             }
         }
 
-        let embed = new MessageEmbed()
+        const deputyModpackFields = () => {
+            if (deputyAddedModsArray.length >= 0) {
+                return [
+                    {
+                        name: "➡ 模組包資訊",
+                        value: `▫ 模組包名稱: ${deputyModpackName}\n▫ 模組包版本: ${deputyModpackVersion}\n▫ 模組包主頁: [主頁連結](${deputyModpackURL})\n▫ 伺服器IP: ${deputyServerIP}`
+                    },
+                    {
+                        name: `➡ 玩家必須額外加裝 ${deputyAddedModsArray.length} 個模組才能進入伺服器`,
+                        value: addedMods(deputyAddedModsArray)
+                    }
+                ]
+            } else {
+                return [{
+                    name: "➡ 模組包資訊",
+                    value: `▫ 模組包名稱: ${deputyModpackName}\n▫ 模組包版本: ${deputyModpackVersion}\n▫ 模組包主頁: [主頁連結](${deputyModpackURL})\n▫ 伺服器IP: ${deputyServerIP}`
+                }]
+            }
+        }
+
+        const embed = new MessageEmbed()
             .setTitle("MCKISMETLAB // 主伺服器模組包資訊")
             // .setDescription(`➡ 模組包資訊:\n▫ 模組包名稱: ${modpackName}\n▫ 模組包版本: ${modpackVersion}\n▫ 模組包主頁: [主頁連結](${modpackURL})\n▫ 伺服器IP: ${serverIP}\n\n🔸 其他注意事項:\n🔸 玩家必須額外加裝 ${addedModsArray.length} 個模組才能進入伺服器\n${addedMods()}`)
             .addFields(modpackFields())
@@ -146,7 +181,18 @@ export default class EmbedCommand extends SlashCommandBase {
             .setThumbnail(modpackImgURL)
             .setColor("#7289DA");
 
-        return [embed];
+        const deputyEmbed = new MessageEmbed()
+            .setTitle("MCKISMETLAB // 副伺服器模組包資訊")
+            .addFields(deputyModpackFields())
+            .setFooter({
+                text: "MCKISMETLAB 無名伺服器 | 模組生存 ⚔ 冒險前進",
+                iconURL: interaction.client.user?.avatarURL() as string
+            })
+            .setThumbnail(deputyModpackImgURL)
+            .setColor("#7289DA");
+
+        if (!deputyCat) return [embed];
+        return [embed, deputyEmbed];
     }
 
     private _launcherEmbed(interaction: CommandInteraction<CacheType>): Array<MessageEmbed> {

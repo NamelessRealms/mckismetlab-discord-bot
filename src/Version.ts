@@ -1,1 +1,1 @@
-export const BOT_VERSION = "1.4.11";
+export const BOT_VERSION = "1.4.12";
