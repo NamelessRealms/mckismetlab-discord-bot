@@ -85,13 +85,13 @@ export default class EmbedCommand extends SlashCommandBase {
 
     private _modpackEmbed(interaction: CommandInteraction<CacheType>): Array<MessageEmbed> {
 
-        const modpackName = "Chroma Endless";
-        const modpackVersion = "1.0.6";
-        const modpackURL = "https://www.curseforge.com/minecraft/modpacks/chroma-endless";
-        const modpackImgURL = "https://media.forgecdn.net/avatars/627/26/638021459665750880.jpeg";
+        const modpackName = "FTB Presents Direwolf20 1.19";
+        const modpackVersion = "1.8.0";
+        const modpackURL = "https://www.feed-the-beast.com/modpacks/101-ftb-presents-direwolf20-119";
+        const modpackImgURL = "https://www.feed-the-beast.com/_next/image?url=https%3A%2F%2Fapps.modpacks.ch%2Fmodpacks%2Fart%2F97%2FDW20%201024%20x%201024.png&w=256&q=75";
         const serverIP = "play.mckismetlab.net";
 
-        const deputyCat = true;
+        const deputyCat = false;
         const deputyModpackName = "Nomifactory (GTCEu Port)";
         const deputyModpackVersion = "1.4.2";
         const deputyModpackURL = "https://www.curseforge.com/minecraft/modpacks/nomi-ceu";
