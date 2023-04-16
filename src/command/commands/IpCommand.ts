@@ -11,7 +11,7 @@ export default class IpCommand extends SlashCommandBase {
     public async execute(interaction: CommandInteraction<CacheType>): Promise<void> {
 
         const embed = new MessageEmbed()
-            .setAuthor({ name: "伺服器IP: mckismetlab.net", iconURL: interaction.client.user?.avatarURL() as string })
+            .setAuthor({ name: "伺服器IP: play.mckismetlab.net", iconURL: interaction.client.user?.avatarURL() as string })
             .setColor("#7289DA");
 
         interaction.reply({ embeds: [embed] });
