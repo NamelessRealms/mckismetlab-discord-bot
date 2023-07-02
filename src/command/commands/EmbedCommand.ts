@@ -85,10 +85,10 @@ export default class EmbedCommand extends SlashCommandBase {
 
     private _modpackEmbed(interaction: CommandInteraction<CacheType>): Array<MessageEmbed> {
 
-        const modpackName = "FTB Presents Direwolf20 1.19";
-        const modpackVersion = "1.11.0";
-        const modpackURL = "https://www.feed-the-beast.com/modpacks/101-ftb-presents-direwolf20-119";
-        const modpackImgURL = "https://www.feed-the-beast.com/_next/image?url=https%3A%2F%2Fapps.modpacks.ch%2Fmodpacks%2Fart%2F97%2FDW20%201024%20x%201024.png&w=256&q=75";
+        const modpackName = "FTB StoneBlock 3";
+        const modpackVersion = "1.7.1";
+        const modpackURL = "https://www.feed-the-beast.com/modpacks/100-ftb-stoneblock-3?tab=about";
+        const modpackImgURL = "https://www.feed-the-beast.com/_next/image?url=https%3A%2F%2Fapps.modpacks.ch%2Fmodpacks%2Fart%2F96%2Fstoneblock_logo.png&w=640&q=75";
         const serverIP = "play.mckismetlab.net";
 
         const deputyCat = false;
