@@ -1,1 +1,1 @@
-export const BOT_VERSION = process.env.NODE_ENV === "production" ? process.env.BOT_VERSION : require("../package.json").version;
+export const BOT_VERSION = "1.4.20"
