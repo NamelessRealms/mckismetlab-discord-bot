@@ -25,6 +25,9 @@ FROM node:16-alpine
 COPY --from=BUILD /dist ./dist
 COPY --from=BUILD /node_modules ./node_modules
 
+
+RUN export BOT_VERSION=$(npm pkg get version)
+
 # Add env
 ENV NODE_ENV=production
 
