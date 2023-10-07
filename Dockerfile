@@ -18,14 +18,14 @@ RUN tsc
 # remove development dependencies
 RUN npm prune --production
 
+RUN export BOT_VERSION=$(npm pkg get version)
+
 # Start production image build
 FROM node:16-alpine
 
 # copy from build image
 COPY --from=BUILD /dist ./dist
 COPY --from=BUILD /node_modules ./node_modules
-
-RUN export BOT_VERSION=$(npm pkg get version)
 
 # Add env
 ENV NODE_ENV=production
