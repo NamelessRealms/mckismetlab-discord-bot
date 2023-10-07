@@ -1,1 +1,2 @@
-export const BOT_VERSION = "1.4.17";
+const pj = require("../package.json");
+export const BOT_VERSION = pj.version;
