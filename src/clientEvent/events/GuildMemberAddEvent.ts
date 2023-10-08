@@ -12,7 +12,7 @@ export default class GuildMemberAddEvent implements IEvent<"guildMemberAdd"> {
 
     public execute(client: Client, member: GuildMember) {
         this._logger.info(`${member.user.username} 加入了 DISCORD!`);
-        this._welcomeJoin(member);
+        // this._welcomeJoin(member);
         this._addOriginalRole(member);
     }
 

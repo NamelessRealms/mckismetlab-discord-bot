@@ -1,1 +1,1 @@
-export const BOT_VERSION = "1.4.20"
+export const BOT_VERSION = "1.4.21"
