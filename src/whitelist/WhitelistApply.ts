@@ -28,7 +28,7 @@ export default class WhitelistApply {
     private static readonly _logger = new LoggerUtil("WhitelistApply");
     private static _store: Store;
     private static _client: Client;
-    private static readonly _whitelistNumber = 60;
+    private static readonly _whitelistNumber = 80;
 
     constructor(client: Client, store: Store) {
         WhitelistApply._client = client;
